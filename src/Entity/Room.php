@@ -19,7 +19,7 @@ class Room
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
     private $summary;
 
@@ -49,7 +49,7 @@ class Room
     private $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="rooms")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="rooms", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;

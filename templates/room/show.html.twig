@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce #{{ room.id }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="jumbotron mt-4">
+            <h1 class="display-4">Annonce #{{ room.id }}</h1>
+        </div>
+        <h2>{{ room.summary }}</h2>
+        <p><span class="font-weight-bold">Description : </span>{{ room.description }}</p>
+        <div class="row mb-4">
+            <div class="col-md">
+                <ul class="list-group">
+                    <li class="list-group-item"><span class="font-weight-bold">Capacité : </span>{{ room.capacity }}</li>
+                    <li class="list-group-item"><span class="font-weight-bold">Superficie : </span>{{ room.superficy }}</li>
+                    <li class="list-group-item"><span class="font-weight-bold">Prix : </span>{{ room.price }}</li>
+                </ul>
+            </div>
+            <div class="col-md">
+                <ul class="list-group">
+                    <li class="list-group-item"><span class="font-weight-bold">Adresse : </span>{{ room.address }}</li>
+                    <li class="list-group-item"><span class="font-weight-bold">Région(s) : </span>
+                        {% for region in room.regions %}
+                            {{ region.name }},
+                        {% endfor %}
+                    </li>
+                    <li class="list-group-item"><span class="font-weight-bold">Propriétire : </span>{{ room.owner.fullname }}</li>
+                </ul>
+            </div>
+        </div>
+        <a href="{{ path('room_list') }}" class="btn btn-primary">Retour</a>
+    </div>
+{% endblock %}
+

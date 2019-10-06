@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonces{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="jumbotron mt-4">
+            <h1 class="display-4">Bienvenu sur Couette & Café</h1>
+            <p class="lead">Consultez nos annonces et trouvez votre séjour de rêve</p>
+        </div>
+        <div class="row">
+            {% for room in rooms %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ room.summary }}</h5>
+                            <p class="card-text"><span class="font-weight-bold">Description : </span>{{ room.description }}</p>
+                            <a href="{{ path('room_show', {id: room.id}) }}" class="btn btn-primary">Voir l'annonce</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

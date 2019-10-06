@@ -131,4 +131,9 @@ class Owner
 
         return $this;
     }
+
+    public function getFullname(): ?string
+    {
+        return $this->firstname.' '.$this->familyname;
+    }
 }
