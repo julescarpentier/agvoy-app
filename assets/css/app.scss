@@ -1,2 +1,26 @@
+// Core variables and mixins
+// Overrides Bootstrap variables
+@import "base/variables";
+@import "base/mixins";
+
+// Bootstrap
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+
+// Font Awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
+// Global CSS
+@import "base/page";
+
+// Components
+@import "components/buttons";
+@import "components/footer";
+@import "components/navbar";
+
+// Layout
+@import "layout/masthead";
+@import "layout/team";
+@import "layout/contact";
