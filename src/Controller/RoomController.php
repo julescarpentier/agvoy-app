@@ -27,7 +27,7 @@ class RoomController extends AbstractController
 
         if (!$room) {
             throw $this->createNotFoundException(
-                'No room found for id '.$id
+                'No room found for id ' . $id
             );
         }
 

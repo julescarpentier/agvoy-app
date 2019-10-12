@@ -134,6 +134,6 @@ class Owner
 
     public function getFullname(): ?string
     {
-        return $this->firstname.' '.$this->familyname;
+        return $this->firstname . ' ' . $this->familyname;
     }
 }
