@@ -5,6 +5,9 @@ namespace App\DataFixtures;
 use App\Entity\Owner;
 use App\Entity\Region;
 use App\Entity\Room;
+use App\Entity\Client;
+use App\Entity\Reservation;
+use App\Entity\Indisponibilite;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -20,6 +23,7 @@ class AppFixtures extends Fixture
         $region->setPresentation("La région française capitale");
         $manager->persist($region);
 
+       
         $manager->flush();
 
         $owner = new Owner();
@@ -29,6 +33,20 @@ class AppFixtures extends Fixture
 
 //        $this->addReference(self::IDF_REGION_REFERENCE, $region);
 
+        $client=new Client();
+        $client->setFirstname("Jules");
+        $client->setFamilyname("Carpentier");
+        
+        $reservation = new Reservation();
+        $reservation->setDateEntree("10/10/2019");
+        $reservation->setDuree(5);
+        $reservation->addClient($client);
+        
+       
+        $indisponibilite= new Indisponibilite();
+        $indisponibilite->setIndisponible(False);
+        
+        
         $room = new Room();
         $room->setSummary("Beau poulailler ancien à Évry");
         $room->setDescription("très joli espace sur paille");
@@ -39,8 +57,15 @@ class AppFixtures extends Fixture
         $room->addRegion($region);
 //        $room->addRegion($this->getReference(self::IDF_REGION_REFERENCE));
         $room->setOwner($owner);
+        $room->addReservation($reservation);
+        $room->addDisponibilite($indisponibilite);
+        
         $manager->persist($room);
 
         $manager->flush();
+        
+        
+        
+        
     }
 }

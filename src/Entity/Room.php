@@ -59,9 +59,21 @@ class Room
      */
     private $regions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="room")
+     */
+    private $reservation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Indisponibilite", mappedBy="room")
+     */
+    private $disponibilite;
+
     public function __construct()
     {
         $this->regions = new ArrayCollection();
+        $this->reservation = new ArrayCollection();
+        $this->disponibilite = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,6 +186,65 @@ class Room
     {
         if ($this->regions->contains($region)) {
             $this->regions->removeElement($region);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservation(): Collection
+    {
+        return $this->reservation;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservation->contains($reservation)) {
+            $this->reservation[] = $reservation;
+            $reservation->addRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservation->contains($reservation)) {
+            $this->reservation->removeElement($reservation);
+            $reservation->removeRoom($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Indisponibilite[]
+     */
+    public function getDisponibilite(): Collection
+    {
+        return $this->disponibilite;
+    }
+
+    public function addDisponibilite(Indisponibilite $disponibilite): self
+    {
+        if (!$this->disponibilite->contains($disponibilite)) {
+            $this->disponibilite[] = $disponibilite;
+            $disponibilite->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDisponibilite(Indisponibilite $disponibilite): self
+    {
+        if ($this->disponibilite->contains($disponibilite)) {
+            $this->disponibilite->removeElement($disponibilite);
+            // set the owning side to null (unless already changed)
+            if ($disponibilite->getRoom() === $this) {
+                $disponibilite->setRoom(null);
+            }
         }
 
         return $this;
