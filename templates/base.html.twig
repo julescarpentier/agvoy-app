@@ -2,11 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>{% block title %}Default{% endblock %} - C&C</title>
+
+    <!-- Stylesheets -->
     {% block stylesheets %}
         {# 'app' must match the first argument to addEntry() in webpack.config.js #}
         {{ encore_entry_link_tags('app') }}
-
         <!-- Renders a link tag (if your module requires any CSS)
              <link rel="stylesheet" href="/build/app.scss"> -->
     {% endblock %}
@@ -24,7 +27,6 @@
 {% include 'components/footer.html.twig' %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
-
     <!-- Renders app.js & a webpack runtime.js file
         <script src="/build/runtime.js"></script>
         <script src="/build/app.js"></script> -->

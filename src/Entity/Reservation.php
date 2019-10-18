@@ -29,12 +29,12 @@ class Reservation
     private $duree;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Client", mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity="App\Entity\Client", mappedBy="reservation", cascade={"persist"})
      */
     private $client;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Room", inversedBy="reservation")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Room", inversedBy="reservation", cascade={"persist"})
      */
     private $room;
 

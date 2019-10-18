@@ -22,7 +22,7 @@ class Indisponibilite
     private $indisponible;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="disponibilite")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="disponibilite", cascade={"persist"})
      */
     private $room;
 

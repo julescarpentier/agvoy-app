@@ -60,12 +60,12 @@ class Room
     private $regions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="room")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="room", cascade={"persist"})
      */
     private $reservation;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Indisponibilite", mappedBy="room")
+     * @ORM\OneToMany(targetEntity="App\Entity\Indisponibilite", mappedBy="room", cascade={"persist"})
      */
     private $disponibilite;
 
