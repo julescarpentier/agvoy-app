@@ -1,72 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce #{{ room.id }}{% endblock %}
+{% block title %}Room{% endblock %}
 
 {% block body %}
     <section class="page-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9 mx-auto">
-                    <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
-                                <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                           data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                           data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Room</h2>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ room.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Summary</th>
+                            <td>{{ room.summary }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ room.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>Capacity</th>
+                            <td>{{ room.capacity }}</td>
+                        </tr>
+                        <tr>
+                            <th>Superficy</th>
+                            <td>{{ room.superficy }}</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>{{ room.price }}</td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>{{ room.address }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-primary" href="{{ path('room_index') }}">back to list</a>
+
+                    <a class="btn btn-secondary" href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
+
+                    {{ include('room/_delete_form.html.twig') }}
                 </div>
             </div>
-            <h2>{{ room.summary }}</h2>
-            <p><span class="font-weight-bold">Description : </span>{{ room.description }}</p>
-            <div class="row mb-4">
-                <div class="col-md">
-                    <ul class="list-group">
-                        <li class="list-group-item"><span class="font-weight-bold">Capacité : </span>{{ room.capacity }}
-                        </li>
-                        <li class="list-group-item">
-                            <span class="font-weight-bold">Superficie : </span>{{ room.superficy }}
-                        </li>
-                        <li class="list-group-item"><span class="font-weight-bold">Prix : </span>{{ room.price }}</li>
-                    </ul>
-                </div>
-                <div class="col-md">
-                    <ul class="list-group">
-                        <li class="list-group-item"><span class="font-weight-bold">Adresse : </span>{{ room.address }}
-                        </li>
-                        <li class="list-group-item"><span class="font-weight-bold">Région(s) : </span>
-                            {% for region in room.regions %}
-                                {{ region.name }},
-                            {% endfor %}
-                        </li>
-                        <li class="list-group-item">
-                            <span class="font-weight-bold">Propriétire : </span>{{ room.owner.fullname }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <a href="{{ path('room_list') }}" class="btn btn-primary">Retour</a>
         </div>
     </section>
 {% endblock %}
-

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Room{% endblock %}
+
+{% block body %}
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Create new Room</h2>
+                </div>
+                <div class="col-lg-12">
+                    {{ include('room/_form.html.twig') }}
+
+                    <a class="btn btn-primary" href="{{ path('room_index') }}">back to list</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
