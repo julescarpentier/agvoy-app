@@ -18,7 +18,7 @@ class Client
 
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Reservation", inversedBy="client")
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="client", cascade={"persist"})
      */
     private $reservation;
 
@@ -32,22 +32,15 @@ class Client
      */
     private $familyname;
 
+    public function __construct()
+    {
+        $this->reservation = new ArrayCollection();
+    }
+    
+    
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-
-    public function getReservation(): ?Reservation
-    {
-        return $this->reservation;
-    }
-
-    public function setReservation(?Reservation $reservation): self
-    {
-        $this->réservation = $reservation;
-
-        return $this;
     }
 
     public function getFirstname(): ?string
@@ -73,4 +66,37 @@ class Client
 
         return $this;
     }
+       
+    
+    /**
+     * @return Collection|Reservation[]
+     */
+    
+    public function getReservation(): Collection
+    {
+        return $this->reservation;
+    }
+    
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservation->contains($reservation)) {
+            $this->reservation[] = $reservation;
+            $reservation->setClient($this);
+        }
+        
+        return $this;
+    }
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservation->contains($reservation)) {
+            $this->reservation->removeElement($reservation);
+            // set the owning side to null (unless already changed)
+            if ($reservation->getClient() === $this) {
+                $reservation->setClient(null);
+            }
+        }
+        return $this;
+    } 
+    
+    
 }

@@ -67,13 +67,13 @@ class Room
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Indisponibilite", mappedBy="room", cascade={"persist"})
      */
-    private $disponibilite;
+    private $indisponibilite;
 
     public function __construct()
     {
         $this->regions = new ArrayCollection();
         $this->reservation = new ArrayCollection();
-        $this->disponibilite = new ArrayCollection();
+        $this->indisponibilite = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,28 +222,28 @@ class Room
     /**
      * @return Collection|Indisponibilite[]
      */
-    public function getDisponibilite(): Collection
+    public function getIndisponibilite(): Collection
     {
-        return $this->disponibilite;
+        return $this->indisponibilite;
     }
 
-    public function addDisponibilite(Indisponibilite $disponibilite): self
+    public function addDisponibilite(Indisponibilite $indisponibilite): self
     {
-        if (!$this->disponibilite->contains($disponibilite)) {
-            $this->disponibilite[] = $disponibilite;
-            $disponibilite->setRoom($this);
+        if (!$this->indisponibilite->contains($indisponibilite)) {
+            $this->indisponibilite[] = $indisponibilite;
+            $indisponibilite->setRoom($this);
         }
 
         return $this;
     }
 
-    public function removeDisponibilite(Indisponibilite $disponibilite): self
+    public function removeDisponibilite(Indisponibilite $indisponibilite): self
     {
-        if ($this->disponibilite->contains($disponibilite)) {
-            $this->disponibilite->removeElement($disponibilite);
+        if ($this->indisponibilite->contains($indisponibilite)) {
+            $this->indisponibilite->removeElement($indisponibilite);
             // set the owning side to null (unless already changed)
-            if ($disponibilite->getRoom() === $this) {
-                $disponibilite->setRoom(null);
+            if ($indisponibilite->getRoom() === $this) {
+                $indisponibilite->setRoom(null);
             }
         }
 

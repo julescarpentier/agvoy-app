@@ -37,14 +37,17 @@ class AppFixtures extends Fixture
         $client->setFirstname("Jules");
         $client->setFamilyname("Carpentier");
         
+        $date = new DateTime("10/10/2019");
         $reservation = new Reservation();
-        $reservation->setDateEntree("10/10/2019");
+        $reservation->setDateEntree($date);
         $reservation->setDuree(5);
         $reservation->addClient($client);
         
-       
+        $dateDebut = new DateTime("24/12/2019");
+        $dateFin = new DateTime("26/12/2019");
         $indisponibilite= new Indisponibilite();
-        $indisponibilite->setIndisponible(False);
+        $indisponibilite->setDateDebut($dateDebut);
+        $indisponibilite->setDateFin($dateFin);
         
         
         $room = new Room();

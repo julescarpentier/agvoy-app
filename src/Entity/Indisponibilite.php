@@ -16,33 +16,28 @@ class Indisponibilite
      */
     private $id;
 
+    
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $indisponible;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="disponibilite", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="indisponibilite", cascade={"persist"})
      */
     private $room;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateDebut;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateFin;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIndisponible(): ?bool
-    {
-        return $this->indisponible;
-    }
-
-    public function setIndisponible(bool $indisponible): self
-    {
-        $this->indisponible = $indisponible;
-
-        return $this;
-    }
-
+   
     public function getRoom(): ?Room
     {
         return $this->room;
@@ -51,6 +46,30 @@ class Indisponibilite
     public function setRoom(?Room $room): self
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    public function getDateDebut(): ?\DateTimeInterface
+    {
+        return $this->dateDebut;
+    }
+
+    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    {
+        $this->dateDebut = $dateDebut;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeInterface
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(\DateTimeInterface $dateFin): self
+    {
+        $this->DateFin = $dateFin;
 
         return $this;
     }

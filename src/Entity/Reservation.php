@@ -24,12 +24,14 @@ class Reservation
     private $dateEntree;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="DateTime")
      */
     private $duree;
-
+   
+    
+    
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Client", mappedBy="reservation", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reservation")
      */
     private $client;
 
@@ -40,10 +42,21 @@ class Reservation
 
     public function __construct()
     {
-        $this->client = new ArrayCollection();
         $this->room = new ArrayCollection();
     }
+    
+     
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
 
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+        return $this;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -73,37 +86,7 @@ class Reservation
         return $this;
     }
 
-    /**
-     * @return Collection|Client[]
-     */
-    public function getClient(): Collection
-    {
-        return $this->client;
-    }
-
-    public function addClient(Client $client): self
-    {
-        if (!$this->client->contains($client)) {
-            $this->client[] = $client;
-            $client->setReservation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClient(Client $client): self
-    {
-        if ($this->client->contains($client)) {
-            $this->client->removeElement($client);
-            // set the owning side to null (unless already changed)
-            if ($client->getReservation() === $this) {
-                $client->setReservation(null);
-            }
-        }
-
-        return $this;
-    }
-
+  
     /**
      * @return Collection|Room[]
      */

@@ -30,7 +30,7 @@ yarn-error.log
 ###< phpstorm ###
 
 ###> eclipse ###
-/.buildpath/
-/.project/
+/.buildpath
+/.project
 /.settings/
 ###< eclipse ###
