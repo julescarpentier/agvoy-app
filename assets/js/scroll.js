@@ -28,11 +28,13 @@
 
     // Collapse Navbar
     const navbarCollapse = function () {
-        const mainNav = $("#mainNav");
-        if (mainNav.offset().top > 100) {
-            mainNav.addClass("navbar-shrink");
-        } else {
-            mainNav.removeClass("navbar-shrink");
+        if ($(location).attr('pathname') === '/') {
+            const mainNav = $("#mainNav");
+            if (mainNav.offset().top < 100) {
+                mainNav.removeClass("navbar-shrink");
+            } else {
+                mainNav.addClass("navbar-shrink");
+            }
         }
     };
     // Collapse now if page is not at top

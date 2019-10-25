@@ -8,6 +8,7 @@ use App\Entity\Room;
 use App\Entity\Client;
 use App\Entity\Reservation;
 use App\Entity\Indisponibilite;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -41,10 +42,10 @@ class AppFixtures extends Fixture
         $reservation = new Reservation();
         $reservation->setDateEntree($date);
         $reservation->setDuree(5);
-        $reservation->addClient($client);
+        $reservation->setClient($client);
         
-        $dateDebut = new DateTime("24/12/2019");
-        $dateFin = new DateTime("26/12/2019");
+        $dateDebut = new DateTime("12/24/2019");
+        $dateFin = new DateTime("12/26/2019");
         $indisponibilite= new Indisponibilite();
         $indisponibilite->setDateDebut($dateDebut);
         $indisponibilite->setDateFin($dateFin);

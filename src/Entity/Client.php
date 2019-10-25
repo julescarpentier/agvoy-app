@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,8 +38,8 @@ class Client
     {
         $this->reservation = new ArrayCollection();
     }
-    
-    
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,24 +68,34 @@ class Client
 
         return $this;
     }
-       
-    
+
+    public function getFullName(): ?string
+    {
+        return $this->getFirstname() . ' ' . $this->getFamilyname();
+    }
+
+    public function __toString()
+    {
+        return $this->getFullname();
+    }
+
+
     /**
      * @return Collection|Reservation[]
      */
-    
+
     public function getReservation(): Collection
     {
         return $this->reservation;
     }
-    
+
     public function addReservation(Reservation $reservation): self
     {
         if (!$this->reservation->contains($reservation)) {
             $this->reservation[] = $reservation;
             $reservation->setClient($this);
         }
-        
+
         return $this;
     }
     public function removeReservation(Reservation $reservation): self
@@ -96,7 +108,7 @@ class Client
             }
         }
         return $this;
-    } 
-    
-    
+    }
+
+
 }

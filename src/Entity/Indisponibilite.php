@@ -15,7 +15,6 @@ class Indisponibilite
      * @ORM\Column(type="integer")
      */
     private $id;
-
     
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="indisponibilite", cascade={"persist"})
@@ -36,7 +35,6 @@ class Indisponibilite
     {
         return $this->id;
     }
-
    
     public function getRoom(): ?Room
     {
@@ -69,7 +67,7 @@ class Indisponibilite
 
     public function setDateFin(\DateTimeInterface $dateFin): self
     {
-        $this->DateFin = $dateFin;
+        $this->dateFin = $dateFin;
 
         return $this;
     }

@@ -19,19 +19,17 @@ class Reservation
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime")
      */
     private $dateEntree;
 
     /**
-     * @ORM\Column(type="DateTime")
+     * @ORM\Column(type="integer")
      */
     private $duree;
-   
-    
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reservation")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reservation", cascade={"persist"})
      */
     private $client;
 
@@ -62,12 +60,12 @@ class Reservation
         return $this->id;
     }
 
-    public function getDateEntree(): ?string
+    public function getDateEntree(): ?\DateTimeInterface
     {
         return $this->dateEntree;
     }
 
-    public function setDateEntree(string $dateEntree): self
+    public function setDateEntree(\DateTimeInterface $dateEntree): self
     {
         $this->dateEntree = $dateEntree;
 
@@ -85,7 +83,6 @@ class Reservation
 
         return $this;
     }
-
   
     /**
      * @return Collection|Room[]
@@ -111,5 +108,10 @@ class Reservation
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return '#' . $this->getId() . ' - ' . $this->getClient();
     }
 }
