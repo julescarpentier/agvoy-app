@@ -1,0 +1,15 @@
+<div class="card h-100">
+    <a href="{{ path('room_details', {id: room.id}) }}">
+        <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+    </a>
+    <div class="card-body">
+        <h4 class="card-title">
+            <a href="{{ path('room_details', {id: room.id}) }}">{{ room.summary }}</a>
+        </h4>
+        <h5>{{ room.price }}&nbsp;&euro;</h5>
+        <p class="card-text">{{ room.description }}</p>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+    </div>
+</div>

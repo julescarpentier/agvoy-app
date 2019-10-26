@@ -15,11 +15,6 @@ class Indisponibilite
      * @ORM\Column(type="integer")
      */
     private $id;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="indisponibilite", cascade={"persist"})
-     */
-    private $room;
 
     /**
      * @ORM\Column(type="datetime")
@@ -30,6 +25,11 @@ class Indisponibilite
      * @ORM\Column(type="datetime")
      */
     private $dateFin;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="indisponibilites", cascade={"persist"})
+     */
+    private $room;
 
     public function getId(): ?int
     {

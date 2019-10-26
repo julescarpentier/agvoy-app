@@ -62,18 +62,18 @@ class Room
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="room", cascade={"persist"})
      */
-    private $reservation;
+    private $reservations;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Indisponibilite", mappedBy="room", cascade={"persist"})
      */
-    private $indisponibilite;
+    private $indisponibilites;
 
     public function __construct()
     {
         $this->regions = new ArrayCollection();
-        $this->reservation = new ArrayCollection();
-        $this->indisponibilite = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+        $this->indisponibilites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,15 +194,15 @@ class Room
     /**
      * @return Collection|Reservation[]
      */
-    public function getReservation(): Collection
+    public function getReservations(): Collection
     {
-        return $this->reservation;
+        return $this->reservations;
     }
 
     public function addReservation(Reservation $reservation): self
     {
-        if (!$this->reservation->contains($reservation)) {
-            $this->reservation[] = $reservation;
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
             $reservation->addRoom($this);
         }
 
@@ -211,8 +211,8 @@ class Room
 
     public function removeReservation(Reservation $reservation): self
     {
-        if ($this->reservation->contains($reservation)) {
-            $this->reservation->removeElement($reservation);
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
             $reservation->removeRoom($this);
         }
 
@@ -222,15 +222,15 @@ class Room
     /**
      * @return Collection|Indisponibilite[]
      */
-    public function getIndisponibilite(): Collection
+    public function getIndisponibilites(): Collection
     {
-        return $this->indisponibilite;
+        return $this->indisponibilites;
     }
 
     public function addDisponibilite(Indisponibilite $indisponibilite): self
     {
-        if (!$this->indisponibilite->contains($indisponibilite)) {
-            $this->indisponibilite[] = $indisponibilite;
+        if (!$this->indisponibilites->contains($indisponibilite)) {
+            $this->indisponibilites[] = $indisponibilite;
             $indisponibilite->setRoom($this);
         }
 
@@ -239,8 +239,8 @@ class Room
 
     public function removeDisponibilite(Indisponibilite $indisponibilite): self
     {
-        if ($this->indisponibilite->contains($indisponibilite)) {
-            $this->indisponibilite->removeElement($indisponibilite);
+        if ($this->indisponibilites->contains($indisponibilite)) {
+            $this->indisponibilites->removeElement($indisponibilite);
             // set the owning side to null (unless already changed)
             if ($indisponibilite->getRoom() === $this) {
                 $indisponibilite->setRoom(null);

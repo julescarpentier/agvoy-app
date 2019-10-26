@@ -18,12 +18,6 @@ class Client
      */
     private $id;
 
-    
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="client", cascade={"persist"})
-     */
-    private $reservation;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -34,11 +28,15 @@ class Client
      */
     private $familyname;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="client", cascade={"persist"})
+     */
+    private $reservations;
+
     public function __construct()
     {
-        $this->reservation = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -69,6 +67,38 @@ class Client
         return $this;
     }
 
+    /**
+     * @return Collection|Reservation[]
+     */
+
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
+            // set the owning side to null (unless already changed)
+            if ($reservation->getClient() === $this) {
+                $reservation->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getFullName(): ?string
     {
         return $this->getFirstname() . ' ' . $this->getFamilyname();
@@ -78,37 +108,4 @@ class Client
     {
         return $this->getFullname();
     }
-
-
-    /**
-     * @return Collection|Reservation[]
-     */
-
-    public function getReservation(): Collection
-    {
-        return $this->reservation;
-    }
-
-    public function addReservation(Reservation $reservation): self
-    {
-        if (!$this->reservation->contains($reservation)) {
-            $this->reservation[] = $reservation;
-            $reservation->setClient($this);
-        }
-
-        return $this;
-    }
-    public function removeReservation(Reservation $reservation): self
-    {
-        if ($this->reservation->contains($reservation)) {
-            $this->reservation->removeElement($reservation);
-            // set the owning side to null (unless already changed)
-            if ($reservation->getClient() === $this) {
-                $reservation->setClient(null);
-            }
-        }
-        return $this;
-    }
-
-
 }

@@ -29,12 +29,12 @@ class Reservation
     private $duree;
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reservation", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reservations", cascade={"persist"})
      */
     private $client;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Room", inversedBy="reservation", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Room", inversedBy="reservations", cascade={"persist"})
      */
     private $room;
 
@@ -42,7 +42,11 @@ class Reservation
     {
         $this->room = new ArrayCollection();
     }
-    
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
      
     public function getClient(): ?Client
     {
@@ -53,11 +57,6 @@ class Reservation
     {
         $this->client = $client;
         return $this;
-    }
-    
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getDateEntree(): ?\DateTimeInterface
