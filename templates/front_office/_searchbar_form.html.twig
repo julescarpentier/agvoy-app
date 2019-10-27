@@ -3,7 +3,7 @@
         {{ form_start(form, {'attr': {'id': 'regionForm'}}) }}
         <div class="row">
             <div class="col">
-                {{ form_label(form.region, 'Select a region', {'label_attr': {'class': 'sr-only'}}) }}
+                {{ form_label(form.region, 'Sélectionnez une région'|trans, {'label_attr': {'class': 'sr-only'}}) }}
                 {{ form_widget(form.region, {'attr': {'class': 'form-control-lg'}}) }}
             </div>
             <div class="col-auto">

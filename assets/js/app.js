@@ -16,6 +16,5 @@ require('bootstrap');
 
 require('jquery-easing');
 require('./scroll');
-require('./ajax');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

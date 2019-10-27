@@ -8,10 +8,7 @@
 
     <!-- Stylesheets -->
     {% block stylesheets %}
-        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
         {{ encore_entry_link_tags('app') }}
-        <!-- Renders a link tag (if your module requires any CSS)
-             <link rel="stylesheet" href="/build/app.scss"> -->
     {% endblock %}
 
     <!-- Fonts -->
@@ -27,9 +24,6 @@
 {% include 'components/footer.html.twig' %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
-    <!-- Renders app.js & a webpack runtime.js file
-        <script src="/build/runtime.js"></script>
-        <script src="/build/app.js"></script> -->
 {% endblock %}
 </body>
 </html>
