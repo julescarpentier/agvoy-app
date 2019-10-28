@@ -7,6 +7,7 @@ use App\Form\SearchRegionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FrontOfficeController extends AbstractController
@@ -24,9 +25,11 @@ class FrontOfficeController extends AbstractController
     /**
      * @Route("/room/{id}", name="room_details")
      * @param $id
+     * @param Request $request
+     * @param SessionInterface $session
      * @return Response
      */
-    public function show($id)
+    public function show($id, Request $request, SessionInterface $session)
     {
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
 
@@ -34,6 +37,18 @@ class FrontOfficeController extends AbstractController
             throw $this->createNotFoundException(
                 'No room found for id ' . $id
             );
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            $bookmarks = $session->get('bookmarks') ?? [];
+            if (in_array($id, $bookmarks)) {
+                unset($bookmarks[array_search($id, $bookmarks)]);
+            } else {
+                array_push($bookmarks, $id);
+            }
+            $session->set('bookmarks', $bookmarks);
+
+            return new Response();
         }
 
         return $this->render('front_office/show.html.twig', [
@@ -46,7 +61,7 @@ class FrontOfficeController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function regions(Request $request)
+    public function byRegion(Request $request)
     {
         $form = $this->createForm(SearchRegionType::class);
         $form->handleRequest($request);
@@ -60,8 +75,24 @@ class FrontOfficeController extends AbstractController
             }
         }
 
-        return $this->render('front_office/regions.html.twig', [
+        return $this->render('front_office/by_region.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/bookmarks", name="bookmarks")
+     * @param SessionInterface $session
+     * @return Response
+     */
+    public function bookmarks(SessionInterface $session)
+    {
+        $rooms = $this->getDoctrine()->getRepository(Room::class)->findBy(
+            ['id' => $session->get('bookmarks')]
+        );
+
+        return $this->render('front_office/bookmarks.html.twig', [
+            'rooms' => $rooms,
         ]);
     }
 }

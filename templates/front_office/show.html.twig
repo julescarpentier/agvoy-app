@@ -37,7 +37,16 @@
                     </div>
                 </div>
             </div>
-            <h2>{{ room.summary }}</h2>
+            <h2>
+                {{ room.summary }}
+                <a href="{{ path('room_details', {id: room.id}) }}" class="bookmark ml-3">
+                    {% if app.request.hasPreviousSession and room.id in app.session.get('bookmarks') %}
+                        <i class="fas fa-bookmark"></i>
+                    {% else %}
+                        <i class="far fa-bookmark"></i>
+                    {% endif %}
+                </a>
+            </h2>
             <p><span class="font-weight-bold">Description : </span>{{ room.description }}</p>
             <div class="row mb-4">
                 <div class="col-md">

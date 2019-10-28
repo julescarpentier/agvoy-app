@@ -10,6 +10,15 @@
         <p class="card-text">{{ room.description }}</p>
     </div>
     <div class="card-footer">
-        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            <a href="{{ path('room_details', {id: room.id}) }}" class="bookmark">
+                {% if app.request.hasPreviousSession and room.id in app.session.get('bookmarks') %}
+                    <i class="fas fa-bookmark"></i>
+                {% else %}
+                    <i class="far fa-bookmark"></i>
+                {% endif %}
+            </a>
+        </div>
     </div>
 </div>

@@ -12,6 +12,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('by_region') }}">régions</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('bookmarks') }}">bookmarks</a>
+                </li>
             </ul>
             {% if app.request.attributes.get('_route') == 'front_office' %}
                 <ul class="navbar-nav text-uppercase ml-auto" id="scrollSpyTarget">
