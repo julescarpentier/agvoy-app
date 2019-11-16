@@ -25,6 +25,16 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $familyname;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -36,9 +46,14 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Client", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Client", inversedBy="user", cascade={"persist", "remove"})
      */
     private $client;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Owner", inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $owner;
 
     public function getId(): ?int
     {
@@ -53,6 +68,30 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getFamilyname(): ?string
+    {
+        return $this->familyname;
+    }
+
+    public function setFamilyname(string $familyname): self
+    {
+        $this->familyname = $familyname;
 
         return $this;
     }
@@ -127,6 +166,16 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    public function getFullname(): ?string
+    {
+        return $this->getFirstname() . ' ' . $this->getFamilyname();
+    }
+
+    public function __toString()
+    {
+        return $this->getFullname();
+    }
+
     public function getClient(): ?Client
     {
         return $this->client;
@@ -135,6 +184,18 @@ class User implements UserInterface
     public function setClient(?Client $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Owner
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Owner $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

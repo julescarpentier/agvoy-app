@@ -36,7 +36,7 @@ class Room
     /**
      * @ORM\Column(type="float")
      */
-    private $superficy;
+    private $surface;
 
     /**
      * @ORM\Column(type="integer")
@@ -117,14 +117,14 @@ class Room
         return $this;
     }
 
-    public function getSuperficy(): ?float
+    public function getSurface(): ?float
     {
-        return $this->superficy;
+        return $this->surface;
     }
 
-    public function setSuperficy(float $superficy): self
+    public function setSurface(float $surface): self
     {
-        $this->superficy = $superficy;
+        $this->surface = $surface;
 
         return $this;
     }
@@ -227,7 +227,7 @@ class Room
         return $this->indisponibilites;
     }
 
-    public function addDisponibilite(Indisponibilite $indisponibilite): self
+    public function addIndisponibilite(Indisponibilite $indisponibilite): self
     {
         if (!$this->indisponibilites->contains($indisponibilite)) {
             $this->indisponibilites[] = $indisponibilite;
@@ -237,7 +237,7 @@ class Room
         return $this;
     }
 
-    public function removeDisponibilite(Indisponibilite $indisponibilite): self
+    public function removeIndisponibilite(Indisponibilite $indisponibilite): self
     {
         if ($this->indisponibilites->contains($indisponibilite)) {
             $this->indisponibilites->removeElement($indisponibilite);

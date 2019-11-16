@@ -19,16 +19,6 @@ class Owner
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $firstname;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $familyname;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $address;
@@ -43,6 +33,11 @@ class Owner
      */
     private $rooms;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="owner", cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -51,30 +46,6 @@ class Owner
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(?string $firstname): self
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getFamilyname(): ?string
-    {
-        return $this->familyname;
-    }
-
-    public function setFamilyname(string $familyname): self
-    {
-        $this->familyname = $familyname;
-
-        return $this;
     }
 
     public function getAddress(): ?string
@@ -132,13 +103,26 @@ class Owner
         return $this;
     }
 
-    public function getFullname(): ?string
-    {
-        return $this->getFirstname() . ' ' . $this->getFamilyname();
-    }
-
     public function __toString()
     {
-        return $this->getFullname();
+        return (string)$this->getUser();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newOwner = null === $user ? null : $this;
+        if ($user->getOwner() !== $newOwner) {
+            $user->setOwner($newOwner);
+        }
+
+        return $this;
     }
 }

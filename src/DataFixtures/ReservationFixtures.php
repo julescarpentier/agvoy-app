@@ -14,23 +14,23 @@ class ReservationFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $reservation = new Reservation();
-        $reservation->setDateEntree(new DateTime("10/10/2019"));
-        $reservation->setDuree(5);
-        $reservation->setClient($this->getReference(ClientFixtures::JC_CLIENT_REFERENCE));
-        $manager->persist($reservation);
+        foreach ($this->getReservationData() as [$date_entree, $duree, $client, $reference]) {
+            $reservation = new Reservation();
+            $reservation->setDateEntree($date_entree);
+            $reservation->setDuree($duree);
+            $reservation->setClient($client);
+            $manager->persist($reservation);
 
-        $this->addReference(self::RESERVATION_1_REFERENCE, $reservation);
-
-        $reservation = new Reservation();
-        $reservation->setDateEntree(new DateTime("06/15/2020"));
-        $reservation->setDuree(7);
-        $reservation->setClient($this->getReference(ClientFixtures::JC_CLIENT_REFERENCE));
-        $manager->persist($reservation);
-
-        $this->addReference(self::RESERVATION_2_REFERENCE, $reservation);
+            $this->addReference($reference, $reservation);
+        }
 
         $manager->flush();
+    }
+
+    private function getReservationData()
+    {
+        yield [new DateTime("10/10/2019"), 5, $this->getReference(ClientFixtures::JC_CLIENT_REFERENCE), self::RESERVATION_1_REFERENCE];
+        yield [new DateTime("06/15/2020"), 7, $this->getReference(ClientFixtures::MS_CLIENT_REFERENCE), self::RESERVATION_2_REFERENCE];
     }
 
     public function getDependencies()

@@ -10,33 +10,51 @@ class RoomFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $room = new Room();
-        $room->setSummary("Beau poulailler ancien à Évry");
-        $room->setDescription("très joli espace sur paille");
-        $room->setCapacity(2);
-        $room->setSuperficy(19.43);
-        $room->setPrice(3000);
-        $room->setAddress("9 Rue Charles Fourier, 91228 EVRY");
-        $room->addRegion($this->getReference(RegionFixtures::IDF_REGION_REFERENCE));
-        $room->setOwner($this->getReference(OwnerFixtures::MR_OWNER_REFERENCE));
-        $room->addReservation($this->getReference(ReservationFixtures::RESERVATION_1_REFERENCE));
-        $room->addDisponibilite($this->getReference(IndisponibliteFixtures::INDISPONIBILITE_REFERENCE));
-        $manager->persist($room);
-
-        $room = new Room();
-        $room->setSummary("Donjon rénové à La Courneuve");
-        $room->setDescription("belle vue à travers les meurtières");
-        $room->setCapacity(2);
-        $room->setSuperficy(8.64);
-        $room->setPrice(1500);
-        $room->setAddress("71, rue des Soeurs, 93120 LA COURNEUVE");
-        $room->addRegion($this->getReference(RegionFixtures::IDF_REGION_REFERENCE));
-        $room->setOwner($this->getReference(OwnerFixtures::MR_OWNER_REFERENCE));
-        $room->addReservation($this->getReference(ReservationFixtures::RESERVATION_2_REFERENCE));
-        $room->addDisponibilite($this->getReference(IndisponibliteFixtures::INDISPONIBILITE_REFERENCE));
-        $manager->persist($room);
+        foreach ($this->getRoomData() as [$summary, $description, $capacity, $surface, $price, $address, $region, $owner, $reservation, $disponibilite]) {
+            $room = new Room();
+            $room->setSummary($summary);
+            $room->setDescription($description);
+            $room->setCapacity($capacity);
+            $room->setSurface($surface);
+            $room->setPrice($price);
+            $room->setAddress($address);
+            $room->addRegion($region);
+            $room->setOwner($owner);
+            $room->addReservation($reservation);
+            $room->addIndisponibilite($disponibilite);
+            $manager->persist($room);
+        }
 
         $manager->flush();
+    }
+
+    private function getRoomData()
+    {
+        yield [
+            "Beau poulailler ancien à Évry",
+            "très joli espace sur paille",
+            2,
+            19.43,
+            3000,
+            "9 Rue Charles Fourier, 91228 EVRY",
+            $this->getReference(RegionFixtures::IDF_REGION_REFERENCE),
+            $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
+            $this->getReference(ReservationFixtures::RESERVATION_1_REFERENCE),
+            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_REFERENCE),
+        ];
+
+        yield [
+            "Donjon rénové à La Courneuve",
+            "belle vue à travers les meurtières",
+            2,
+            8.64,
+            1500,
+            "71, rue des Soeurs, 93120 LA COURNEUVE",
+            $this->getReference(RegionFixtures::IDF_REGION_REFERENCE),
+            $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
+            $this->getReference(ReservationFixtures::RESERVATION_2_REFERENCE),
+            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_REFERENCE),
+        ];
     }
 
     public function getDependencies()
