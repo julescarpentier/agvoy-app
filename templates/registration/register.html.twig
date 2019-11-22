@@ -1,25 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-Register
-{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block body %}
+    <section class="page-section">
+        <div class="container">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Register</h1>
 
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword) }}
+            {{ form_row(registrationForm.agreeTerms) }}
 
-<section class="page-section">
+            <button type="submit" class="btn btn-lg btn-primary">Register</button>
 
-	<div class="container">
-		<h1 class="h3 mb-3 font-weight-normal text-center">Register</h1>
-
-		{{ form_start(registrationForm) }}
-		{{ form_row(registrationForm.email) }}
-		{{ form_row(registrationForm.plainPassword) }}
-		{{ form_row(registrationForm.agreeTerms) }}
-
-		<button class="btn btn-lg btn-primary">Register</button>
-		{{ form_end(registrationForm) }}
-
-
-	</div>
-	{% endblock %}
+            {{ form_end(registrationForm) }}
+        </div>
+    </section>
+{% endblock %}

@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Class RoomController
+ * @package App\Controller
+ *
  * Require ROLE_ADMIN for *every* controller method in this class.
  *
  * @Route("/admin/room")

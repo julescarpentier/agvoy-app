@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class IndisponibliteFixtures extends Fixture
 {
-    public const INDISPONIBILITE_REFERENCE = 'indisponibilite';
+    public const INDISPONIBILITE_1_REFERENCE = 'indisponibilite';
 
     public function load(ObjectManager $manager)
     {
@@ -27,6 +27,6 @@ class IndisponibliteFixtures extends Fixture
 
     private function getIndisponibiliteData()
     {
-        yield [new DateTime("12/24/2019"), new DateTime("12/26/2019"), self::INDISPONIBILITE_REFERENCE];
+        yield [new DateTime("12/24/2019"), new DateTime("12/26/2019"), self::INDISPONIBILITE_1_REFERENCE];
     }
 }

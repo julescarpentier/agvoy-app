@@ -8,9 +8,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class RoomFixtures extends Fixture
 {
+    public const ROOM_1_REFERENCE = 'room-1';
+    public const ROOM_2_REFERENCE = 'room-2';
+
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getRoomData() as [$summary, $description, $capacity, $surface, $price, $address, $region, $owner, $reservation, $disponibilite]) {
+        foreach ($this->getRoomData() as [$summary, $description, $capacity, $surface, $price, $address, $region, $owner, $reservation, $indisponibilite, $reference]) {
             $room = new Room();
             $room->setSummary($summary);
             $room->setDescription($description);
@@ -21,8 +24,10 @@ class RoomFixtures extends Fixture
             $room->addRegion($region);
             $room->setOwner($owner);
             $room->addReservation($reservation);
-            $room->addIndisponibilite($disponibilite);
+            $room->addIndisponibilite($indisponibilite);
             $manager->persist($room);
+
+            $this->addReference($reference, $room);
         }
 
         $manager->flush();
@@ -40,7 +45,8 @@ class RoomFixtures extends Fixture
             $this->getReference(RegionFixtures::IDF_REGION_REFERENCE),
             $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
             $this->getReference(ReservationFixtures::RESERVATION_1_REFERENCE),
-            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_REFERENCE),
+            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_1_REFERENCE),
+            self::ROOM_1_REFERENCE,
         ];
 
         yield [
@@ -53,7 +59,8 @@ class RoomFixtures extends Fixture
             $this->getReference(RegionFixtures::IDF_REGION_REFERENCE),
             $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
             $this->getReference(ReservationFixtures::RESERVATION_2_REFERENCE),
-            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_REFERENCE),
+            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_1_REFERENCE),
+            self::ROOM_2_REFERENCE,
         ];
     }
 

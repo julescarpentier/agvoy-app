@@ -9,6 +9,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
+    public const MR_USER_REFERENCE = 'mr-user';
+    public const JC_USER_REFERENCE = 'jc-user';
+    public const OB_USER_REFERENCE = 'ob-user';
+    public const MS_USER_REFERENCE = 'ms-user';
+
     private $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -18,7 +23,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getUserData() as [$email, $firstname, $familyname, $plainPassword, $role, $client, $owner]) {
+        foreach ($this->getUserData() as [$email, $firstname, $familyname, $plainPassword, $role, $client, $owner, $reference]) {
             $user = new User();
             $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
             $user->setEmail($email);
@@ -29,6 +34,8 @@ class UserFixtures extends Fixture
             $user->setClient($client);
             $user->setOwner($owner);
             $manager->persist($user);
+
+            $this->addReference($reference, $user);
         }
 
         $manager->flush();
@@ -36,10 +43,49 @@ class UserFixtures extends Fixture
 
     private function getUserData()
     {
-        yield ['marie.reinbigler@telecom-sudparis.eu', 'Marie', 'Reinbigler', 'marie', 'ROLE_ADMIN', $this->getReference(ClientFixtures::MR_CLIENT_REFERENCE), $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE)];
-        yield ['jules.carpentier@telecom-sudparis.eu', 'Jules', 'Carpentier', 'jules', 'ROLE_ADMIN', $this->getReference(ClientFixtures::JC_CLIENT_REFERENCE), $this->getReference(OwnerFixtures::JC_OWNER_REFERENCE)];
-        yield ['olivier.berger@telecom-sudparis.eu', 'Olivier', 'Berger', 'olivier', 'ROLE_OWNER', null, $this->getReference(OwnerFixtures::OB_OWNER_REFERENCE)];
-        yield ['mohamed.sellami@telecom-sudparis.eu', 'Mohamed', 'Sellami', 'mohamed', 'ROLE_CLIENT', $this->getReference(ClientFixtures::MS_CLIENT_REFERENCE), null];
+        yield [
+            'marie.reinbigler@telecom-sudparis.eu',
+            'Marie',
+            'Reinbigler',
+            'marie',
+            'ROLE_ADMIN',
+            $this->getReference(ClientFixtures::MR_CLIENT_REFERENCE),
+            $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
+            self::MR_USER_REFERENCE,
+        ];
+
+        yield [
+            'jules.carpentier@telecom-sudparis.eu',
+            'Jules',
+            'Carpentier',
+            'jules',
+            'ROLE_ADMIN',
+            $this->getReference(ClientFixtures::JC_CLIENT_REFERENCE),
+            $this->getReference(OwnerFixtures::JC_OWNER_REFERENCE),
+            self::JC_USER_REFERENCE,
+        ];
+
+        yield [
+            'olivier.berger@telecom-sudparis.eu',
+            'Olivier',
+            'Berger',
+            'olivier',
+            'ROLE_OWNER',
+            null,
+            $this->getReference(OwnerFixtures::OB_OWNER_REFERENCE),
+            self::OB_USER_REFERENCE,
+        ];
+
+        yield [
+            'mohamed.sellami@telecom-sudparis.eu',
+            'Mohamed',
+            'Sellami',
+            'mohamed',
+            'ROLE_CLIENT',
+            $this->getReference(ClientFixtures::MS_CLIENT_REFERENCE),
+            null,
+            self::MS_USER_REFERENCE,
+        ];
     }
 
     public function getDependencies()
