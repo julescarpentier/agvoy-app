@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Reservation
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading text-uppercase">Reservation</h2>
+			</div>
+			<div class="col-lg-12">
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ reservation.id }}</td>
+						</tr>
+						<tr>
+							<th>DateEntree</th>
+							<td>{{ reservation.dateEntree ? reservation.dateEntree|date('Y-m-d H:i:s') : '' }}</td>
+						</tr>
+						<tr>
+							<th>Duree</th>
+							<td>{{ reservation.duree }}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<a class="btn btn-primary" href="{{ path('reservation_index') }}">back
+					to list</a> <a class="btn btn-secondary"
+					href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+
+				{{ include('reservation/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
