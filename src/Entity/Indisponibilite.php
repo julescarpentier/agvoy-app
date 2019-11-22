@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,24 +49,24 @@ class Indisponibilite
         return $this;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    public function getDateDebut(): ?DateTimeInterface
     {
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(DateTimeInterface $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateFin(): ?DateTimeInterface
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): self
+    public function setDateFin(DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
 

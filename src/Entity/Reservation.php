@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -59,12 +60,12 @@ class Reservation
         return $this;
     }
 
-    public function getDateEntree(): ?\DateTimeInterface
+    public function getDateEntree(): ?DateTimeInterface
     {
         return $this->dateEntree;
     }
 
-    public function setDateEntree(\DateTimeInterface $dateEntree): self
+    public function setDateEntree(DateTimeInterface $dateEntree): self
     {
         $this->dateEntree = $dateEntree;
 
