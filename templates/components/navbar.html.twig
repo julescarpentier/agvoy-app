@@ -1,56 +1,69 @@
 <nav
-	class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top navbar-shrink"
-	id="mainNav">
-	<div class="container">
-		<a class="navbar-brand js-scroll-trigger"
-			href="{{ path('front_office') }}#page-top">Couette & Café</a>
-		<button class="navbar-toggler navbar-toggler-right" type="button"
-			data-toggle="collapse" data-target="#navbarResponsive"
-			aria-controls="navbarResponsive" aria-expanded="false"
-			aria-label="Toggle navigation">
-			Menu <i class="fas fa-bars"></i>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive">
-			<ul class="navbar-nav text-uppercase">
-
-			</ul>
-			{% if app.request.attributes.get('_route') == 'front_office' %}
-			<ul class="navbar-nav text-uppercase" id="scrollSpyTarget">
-				<li class="nav-item"><a class="nav-link js-scroll-trigger"
-					href="#annonces"><i class="fas fa-home"></i> annonces</a></li>
-				<li class="nav-item"><a class="nav-link js-scroll-trigger"
-					href="#team"><i class="fas fa-users"></i> équipe</a></li>
-				<li class="nav-item"><a class="nav-link js-scroll-trigger"
-					href="#contact"><i class="fas fa-envelope"></i> contact</a></li>
-			</ul>
-			{% endif %}
-			<ul class="navbar-nav text-uppercase ml-auto">
-				<li class="nav-item"><a class="nav-link"
-					href="{{ path('bookmarks') }}"><i class="fas fa-bookmark"></i>
-						bookmarks</a></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="userDropdown"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> <i class="fas fa-user"></i> {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? app.user : 'Connection' }}
-				</a>
-					<div class="dropdown-menu" aria-labelledby="userDropdown">
-						{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-						{% if is_granted("ROLE_ADMIN") %}
-						
-						<a class="dropdown-item" href="{{ path('user_index') }}">Users</a>
-						<a class="dropdown-item" href="{{ path('room_index') }}">Rooms</a>
-						<a class="dropdown-item" href="{{ path('region_index') }}">Regions</a>
-						<a class="dropdown-item"href="{{ path('reservation_index') }}">Reservations</a>
-						
-						{% endif %}
-						<a class="dropdown-item" href="{{ path('app_logout') }}">logout</a>
-						{% else %}
-						<a class="dropdown-item" href="{{ path('app_login') }}">login</a>
-						<a class="dropdown-item" href="{{ path('app_register') }}">register</a>
-						{% endif %}
-
-					</div></li>
-			</ul>
-		</div>
-	</div>
+        class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top navbar-shrink"
+        id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger"
+           href="{{ path('front_office') }}#page-top">Couette & Café</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button"
+                data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            Menu <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            {% if app.request.attributes.get('_route') == 'front_office' %}
+                <ul class="navbar-nav text-uppercase" id="scrollSpyTarget">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#annonces">
+                            <i class="fas fa-home"></i> annonces
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#team">
+                            <i class="fas fa-users"></i> équipe
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#contact">
+                            <i class="fas fa-envelope"></i> contact
+                        </a>
+                    </li>
+                </ul>
+            {% endif %}
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('bookmarks') }}"><i class="fas fa-bookmark"></i> bookmarks</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? app.user : 'Connection' }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            {% if is_granted("ROLE_CLIENT") %}
+                                <a class="dropdown-item" href="#">Mes réservations</a>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if is_granted("ROLE_OWNER") %}
+                                <a class="dropdown-item" href="#">Mes annonces</a>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <a class="dropdown-item" href="{{ path('user_index') }}">Users</a>
+                                <a class="dropdown-item" href="{{ path('room_index') }}">Rooms</a>
+                                <a class="dropdown-item" href="{{ path('region_index') }}">Regions</a>
+                                <a class="dropdown-item" href="{{ path('reservation_index') }}">Reservations</a>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">logout</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{{ path('app_login') }}">login</a>
+                            <a class="dropdown-item" href="{{ path('app_register') }}">register</a>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
