@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Room;
+use App\Form\ClientReservationType;
 use App\Form\SearchRegionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Reservation;
+use App\Form\ReservationType;
 
 class FrontOfficeController extends AbstractController
 {
@@ -95,4 +98,57 @@ class FrontOfficeController extends AbstractController
             'rooms' => $rooms,
         ]);
     }
+    
+    
+    /**
+     *
+     * @Route("/client/{id}", name="client_reservation")
+     * @param $id
+     */
+    public function showReservation($id)
+    {
+        $this->denyAccessUnlessGranted("ROLE_CLIENT");
+        $user = $this->getUser();
+        $client = $user->getClient();
+        
+        $reservations = $client->getReservations();
+        
+        if (! $reservations) {
+            throw $this->createNotFoundException('No reservation found for id ' . $id);
+        }
+        
+        return $this->render('reservation/index.html.twig', [
+            'reservations' => $reservations
+        ]);
+    }
+    
+    /**
+     * @Route("/newClient", name="reservation_newClient", methods={"GET","POST"})
+     */
+    public function newClient(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted("ROLE_CLIENT");
+        $user = $this->getUser();
+        $client = $user->getClient();
+        $reservation = new Reservation();
+        $form = $this->createForm(ClientReservationType::class, $reservation);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $reservation->setClient($client);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('front_office');
+        }
+        
+        return $this->render('front_office/newClient.html.twig', [
+            'reservation' => $reservation,
+            'form' => $form->createView(),
+        ]);
+    }
+    
+    
+    
 }

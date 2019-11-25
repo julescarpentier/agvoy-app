@@ -1,3 +1,4 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -24,8 +25,8 @@ Reservation
 							<td>{{ reservation.dateEntree ? reservation.dateEntree|date('Y-m-d H:i:s') : '' }}</td>
 						</tr>
 						<tr>
-							<th>Duree</th>
-							<td>{{ reservation.duree }}</td>
+							<th>DateFin</th>
+							<td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d H:i:s') : ''}}</td>
 						</tr>
 					</tbody>
 				</table>

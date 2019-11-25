@@ -17,7 +17,7 @@ Reservation index
 						<tr>
 							<th>Id</th>
 							<th>DateEntree</th>
-							<th>Duree</th>
+							<th>DateFin</th>
 							<th>actions</th>
 						</tr>
 					</thead>
@@ -26,7 +26,7 @@ Reservation index
 						<tr>
 							<td>{{ reservation.id }}</td>
 							<td>{{ reservation.dateEntree ? reservation.dateEntree|date('Y-m-d H:i:s') : '' }}</td>
-							<td>{{ reservation.duree }}</td>
+							<td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d H:i:s') : ''  }}</td>
 							<td><a class="btn btn-info btn-sm"
 								href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
 								<a class="btn btn-secondary btn-sm"

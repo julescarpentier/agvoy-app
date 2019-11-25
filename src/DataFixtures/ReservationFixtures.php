@@ -14,10 +14,10 @@ class ReservationFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getReservationData() as [$date_entree, $duree, $client, $reference]) {
+        foreach ($this->getReservationData() as [$date_entree, $date_fin, $client, $reference]) {
             $reservation = new Reservation();
             $reservation->setDateEntree($date_entree);
-            $reservation->setDuree($duree);
+            $reservation->setDateFin($date_fin);
             $reservation->setClient($client);
             $manager->persist($reservation);
 
@@ -29,8 +29,8 @@ class ReservationFixtures extends Fixture
 
     private function getReservationData()
     {
-        yield [new DateTime("10/10/2019"), 5, $this->getReference(ClientFixtures::JC_CLIENT_REFERENCE), self::RESERVATION_1_REFERENCE];
-        yield [new DateTime("06/15/2020"), 7, $this->getReference(ClientFixtures::MS_CLIENT_REFERENCE), self::RESERVATION_2_REFERENCE];
+        yield [new DateTime("10/10/2019"), new DateTime("10/20/2019"), $this->getReference(ClientFixtures::JC_CLIENT_REFERENCE), self::RESERVATION_1_REFERENCE];
+        yield [new DateTime("06/15/2020"), new DateTime("10/01/2020"), $this->getReference(ClientFixtures::MS_CLIENT_REFERENCE), self::RESERVATION_2_REFERENCE];
     }
 
     public function getDependencies()
