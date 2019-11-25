@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
@@ -36,6 +37,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $client = new Client();
+            $user->setClient($client);
             $user->addRole("ROLE_CLIENT");
 
             $entityManager = $this->getDoctrine()->getManager();

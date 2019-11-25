@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Owner;
+use App\Entity\Reservation;
 use App\Entity\Room;
+use App\Form\ClientReservationType;
 use App\Form\NewOwnerFormType;
 use App\Form\NewRoomFormType;
-use App\Form\ClientReservationType;
 use App\Form\SearchRegionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,8 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Reservation;
-use App\Form\ReservationType;
 
 class FrontOfficeController extends AbstractController
 {
@@ -161,32 +160,25 @@ class FrontOfficeController extends AbstractController
 
     /**
      *
-     * @Route("/client/{id}", name="client_reservation")
-     * @param $id
+     * @Route("/my-reservations", name="my_reservations")
+     * @IsGranted("ROLE_CLIENT")
+     * @return Response
      */
-    public function showReservation($id)
+    public function myReservations(): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_CLIENT");
-        $user = $this->getUser();
-        $client = $user->getClient();
-
-        $reservations = $client->getReservations();
-
-        if (! $reservations) {
-            throw $this->createNotFoundException('No reservation found for id ' . $id);
-        }
-
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $reservations
+            'reservations' => $this->getUser()->getClient()->getReservations(),
         ]);
     }
 
     /**
      * @Route("/newClient", name="reservation_newClient", methods={"GET","POST"})
+     * @IsGranted("ROLE_CLIENT")
+     * @param Request $request
+     * @return Response
      */
     public function newClient(Request $request): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_CLIENT");
         $user = $this->getUser();
         $client = $user->getClient();
         $reservation = new Reservation();
