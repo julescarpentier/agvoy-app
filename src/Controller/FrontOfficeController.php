@@ -18,7 +18,7 @@ class FrontOfficeController extends AbstractController
     /**
      * @Route("/", name="front_office")
      */
-    public function index()
+    public function frontOffice()
     {
         return $this->render('front_office/index.html.twig', [
             'rooms' => $this->getDoctrine()->getRepository(Room::class)->findAll(),
@@ -32,7 +32,7 @@ class FrontOfficeController extends AbstractController
      * @param SessionInterface $session
      * @return Response
      */
-    public function show($id, Request $request, SessionInterface $session)
+    public function roomDetails($id, Request $request, SessionInterface $session)
     {
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
 
@@ -150,5 +150,8 @@ class FrontOfficeController extends AbstractController
     }
     
     
-    
+    public function room_new()
+    {
+
+    }
 }
