@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mes annonces{% endblock %}
+
+{% block body %}
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Vos annonces</h2>
+                    <h3 class="section-subheading text-muted">Consultez, modifiez ou supprimez vos annonces</h3>
+                </div>
+            </div>
+            {% include 'front_office/_rooms.html.twig' %}
+        </div>
+    </section>
+{% endblock %}

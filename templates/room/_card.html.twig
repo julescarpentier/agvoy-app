@@ -1,10 +1,10 @@
 <div class="card h-100">
-    <a href="{{ path('room_details', {id: room.id}) }}">
+    <a href="{{ path('public_room_show', {'id': room.id}) }}">
         <img class="card-img-top" src="http://placehold.it/700x400" alt="">
     </a>
     <div class="card-body">
         <h4 class="card-title">
-            <a href="{{ path('room_details', {id: room.id}) }}">{{ room.summary }}</a>
+            <a href="{{ path('public_room_show', {'id': room.id}) }}">{{ room.summary }}</a>
         </h4>
         <h5>{{ room.price }}&nbsp;&euro;</h5>
         <p class="card-text">{{ room.description }}</p>
@@ -12,7 +12,7 @@
     <div class="card-footer">
         <div class="d-flex justify-content-between align-items-center">
             <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            <a href="{{ path('room_details', {id: room.id}) }}" class="bookmark">
+            <a href="{{ path('public_room_show', {'id': room.id}) }}" class="bookmark">
                 {% if app.request.hasPreviousSession and room.id in app.session.get('bookmarks') %}
                     <i class="fas fa-bookmark"></i>
                 {% else %}

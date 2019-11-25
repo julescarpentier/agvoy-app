@@ -39,7 +39,7 @@
             </div>
             <h2>
                 {{ room.summary }}
-                <a href="{{ path('room_details', {id: room.id}) }}" class="bookmark ml-3">
+                <a href="{{ path('public_room_show', {'id': room.id}) }}" class="bookmark ml-3">
                     {% if app.request.hasPreviousSession and room.id in app.session.get('bookmarks') %}
                         <i class="fas fa-bookmark"></i>
                     {% else %}
@@ -76,6 +76,10 @@
             </div>
             <a href="{{ path('front_office') }}" class="btn btn-primary">Retour</a>
             <a href="{{ path('reservation_newClient')}}" class="btn btn-success mb-2">Book</a>
+            {% if is_granted("ROLE_OWNER") and room.owner == app.user.owner %}
+                <a class="btn btn-info" href="#">Edit</a>
+                <a class="btn btn-danger" href="#">Delete</a>
+            {% endif %}
         </div>
     </section>
 {% endblock %}
