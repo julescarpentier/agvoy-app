@@ -1,33 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index{% endblock %}
+{% block title %}
+Client index
+{% endblock %}
 
 {% block body %}
-    <h1>Client index</h1>
+<section class="page-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading text-uppercase">Client index</h2>
+			</div>
+			<div class="col-lg-12">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>
-                    <a href="{{ path('client_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="2">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for client in clients %}
+						<tr>
+							<td>{{ client.id }}</td>
+							<td>{{ client }}</td>
+							<td><a class="btn btn-info btn-sm"
+								href="{{ path('client_show', {'id': client.id}) }}">show</a> <a
+								class="btn btn-secondary btn-sm"
+								href="{{ path('client_edit', {'id': client.id}) }}">edit</a></td>
+						</tr>
+						{% else %}
+						<tr>
+							<td colspan="2">no records found</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 
-    <a href="{{ path('client_new') }}">Create new</a>
+				<a class="btn btn-primary" href="{{ path('client_new') }}">Create
+					new</a>
+			</div>
+		</div>
+	</div>
+</section>
 {% endblock %}
