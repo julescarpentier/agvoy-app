@@ -75,7 +75,7 @@
                 </div>
             </div>
             <a href="{{ path('front_office') }}" class="btn btn-primary">Retour</a>
-            <a href="{{ path('reservation_newClient')}}" class="btn btn-success mb-2">Book</a>
+            <a href="{{ path('reservation_newClient')}}" class="btn btn-success">Book</a>
             {% if is_granted("ROLE_OWNER") and room.owner == app.user.owner %}
                 <a class="btn btn-info" href="#">Edit</a>
                 <a class="btn btn-danger" href="#">Delete</a>
