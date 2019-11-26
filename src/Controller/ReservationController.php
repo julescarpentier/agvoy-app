@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("admin/reservation")
+ * @Route("/admin/reservation")
  * @IsGranted("ROLE_ADMIN")
  */
 class ReservationController extends AbstractController

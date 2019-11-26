@@ -107,6 +107,17 @@ class FrontOfficeController extends AbstractController
     }
 
     /**
+     * @Route("/reservation/new")
+     * @param Request $request
+     * @return Response
+     */
+    public function reservationNew(Request $request): Response
+    {
+
+        return new Response();
+    }
+
+    /**
      * @Route("/by-region", name="by_region", methods={"GET", "POST"})
      * @param Request $request
      * @return Response

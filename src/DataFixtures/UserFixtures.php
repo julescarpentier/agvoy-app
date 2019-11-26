@@ -23,14 +23,14 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getUserData() as [$email, $firstname, $familyname, $plainPassword, $role, $client, $owner, $reference]) {
+        foreach ($this->getUserData() as [$email, $firstname, $familyname, $plainPassword, $roles, $client, $owner, $reference]) {
             $user = new User();
             $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
             $user->setEmail($email);
             $user->setFirstname($firstname);
             $user->setFamilyname($familyname);
             $user->setPassword($encodedPassword);
-            $user->addRole($role);
+            $user->setRoles($roles);
             $user->setClient($client);
             $user->setOwner($owner);
             $manager->persist($user);
@@ -48,7 +48,7 @@ class UserFixtures extends Fixture
             'Marie',
             'Reinbigler',
             'marie',
-            'ROLE_ADMIN',
+            ['ROLE_ADMIN'],
             $this->getReference(ClientFixtures::MR_CLIENT_REFERENCE),
             $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
             self::MR_USER_REFERENCE,
@@ -59,7 +59,7 @@ class UserFixtures extends Fixture
             'Jules',
             'Carpentier',
             'jules',
-            'ROLE_ADMIN',
+            ['ROLE_ADMIN'],
             $this->getReference(ClientFixtures::JC_CLIENT_REFERENCE),
             $this->getReference(OwnerFixtures::JC_OWNER_REFERENCE),
             self::JC_USER_REFERENCE,
@@ -70,7 +70,7 @@ class UserFixtures extends Fixture
             'Olivier',
             'Berger',
             'olivier',
-            'ROLE_OWNER',
+            ['ROLE_CLIENT', 'ROLE_OWNER'],
             null,
             $this->getReference(OwnerFixtures::OB_OWNER_REFERENCE),
             self::OB_USER_REFERENCE,
@@ -81,7 +81,7 @@ class UserFixtures extends Fixture
             'Mohamed',
             'Sellami',
             'mohamed',
-            'ROLE_CLIENT',
+            ['ROLE_CLIENT'],
             $this->getReference(ClientFixtures::MS_CLIENT_REFERENCE),
             null,
             self::MS_USER_REFERENCE,

@@ -19,12 +19,12 @@ class UserType extends AbstractType
             ->add('familyname')
             ->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'Administrateur' => "ROLE_ADMIN",
+                    'Admin' => "ROLE_ADMIN",
                     'Owner' => "ROLE OWNER",
-                    'Client' => "ROLE_CLIENT"
+                    'Client' => "ROLE_CLIENT",
                 ],
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
             ])
             ->add('password')
             ->add('client')
