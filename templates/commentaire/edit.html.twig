@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Edit Comment
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading text-uppercase">Edit Comment</h2>
+			</div>
+			<div class="col-lg-12">
+
+				{{ include('commentaire/_form.html.twig', {'button_label': 'Update'}) }}
+
+				<a class="btn btn-primary" href="{{ path('commentaire_index') }}">Back
+					to list</a>
+
+				{{ include('commentaire/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+

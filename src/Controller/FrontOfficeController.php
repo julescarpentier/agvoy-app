@@ -7,6 +7,7 @@ use App\Entity\Owner;
 use App\Entity\Reservation;
 use App\Entity\Room;
 use App\Form\ClientPublicType;
+use App\Form\CommentairePublicType;
 use App\Form\OwnerPublicType;
 use App\Form\ReservationPublicType;
 use App\Form\RoomPublicType;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Commentaire;
 
 class FrontOfficeController extends AbstractController
 {
@@ -211,6 +213,48 @@ class FrontOfficeController extends AbstractController
             return $this->redirectToRoute('front_office');
         }
     }
+    
+    /**
+     * @Route("/room/{id}/comment", name="public_room_comment", methods={"GET", "POST"})
+     * @IsGranted("ROLE_CLIENT")
+     * @param Request $request
+     * @param Room $room
+     * @return Response
+     */
+    
+    public function roomComment(Request $request, Room $room): Response        
+        {
+            $client = $this->getUser()->getClient();
+            $commentaire = new Commentaire();
+            
+            $commentaire->setRoom($room);
+            
+            $commentaire->setAuteur($client);
+           
+            $form = $this->createForm(CommentairePublicType::class, $commentaire);
+                $form->handleRequest($request);
+                
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($commentaire);
+                    $entityManager->flush();
+                    
+                    $this->addFlash('success', "Commentaire ajouté avec succès");
+                    
+                    return $this->redirectToRoute('my_comments');
+                }
+            
+            return $this->render('front_office/room_comment.html.twig', [
+                'room' => $room,
+                'commentaire' => $commentaire,
+                'form' => $form->createView(),
+            ]);
+        }
+        
+    
+    
+    
+    
 
     /**
      * @Route("/room/{id}", name="public_room_delete", methods={"DELETE"})
@@ -219,6 +263,7 @@ class FrontOfficeController extends AbstractController
      * @param Room $room
      * @return Response
      */
+    
     public function delete(Request $request, Room $room): Response
     {
         if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->request->get('_token'))) {
@@ -293,6 +338,30 @@ class FrontOfficeController extends AbstractController
     {
         return $this->render('reservation/index.html.twig', [
             'reservations' => $this->getUser()->getClient()->getReservations(),
+        ]);
+    }
+    /**
+     * @Route("/my-comments", name="my_comments")
+     * @IsGranted("ROLE_CLIENT")
+     * @return Response
+     */
+    public function myComments(): Response
+    {
+        return $this->render('commentaire/index.html.twig', [
+            'commentaires' => $this->getUser()->getClient()->getCommentaires(),
+        ]);
+    }
+
+    
+    /**
+     * @Route("/room/{id}/comments", name="room_comments")
+     * @param Room $room
+     * @return Response
+     */
+    public function roomComments(Room $room): Response
+    {
+        return $this->render('front_office/room_all_comments.html.twig', [
+            'commentaires' => $this->getDoctrine()->getRepository(Commentaire::class)->findBy([ 'room' => $room]),
         ]);
     }
 }

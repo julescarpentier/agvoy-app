@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Les commentaires
+{% endblock %}
+
+{% block body %}
+    <section class="page-section" id="room-comment">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Les commentaires</h2>
+                </div>
+                <div class="col-lg-12">
+
+                    {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button class="btn btn-primary mb-2">Laisser un commentaire</button>
+                    {{ form_end(form) }}
+
+                    <a class="btn btn-info" href="{{ path('public_room_show', {'id': room.id}) }}">Retour sur l'annonce</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

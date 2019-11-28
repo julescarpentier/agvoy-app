@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Commentaire
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading text-uppercase">Commentaire</h2>
+			</div>
+			<div class="col-lg-12">
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ commentaire.id }}</td>
+						</tr>
+						<tr>
+							<th>Commentaire</th>
+							<td>{{ commentaire.commentaire }}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<a class="btn btn-primary" href="{{ path('commentaire_index') }}">back
+					to list</a> <a class="btn btn-secondary"
+					href="{{ path('commentaire_edit', {'id': commentaire.id}) }}">edit</a>
+
+				{{ include('commentaire/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

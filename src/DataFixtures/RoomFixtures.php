@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Room;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RoomFixtures extends Fixture
 {
@@ -13,7 +14,7 @@ class RoomFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getRoomData() as [$summary, $description, $capacity, $surface, $price, $address, $region, $owner, $reservation, $indisponibilite, $reference]) {
+        foreach ($this->getRoomData() as [$summary, $description, $capacity, $surface, $price, $address, $region, $owner, $reservation, $indisponibilite,  $commentaire, $reference]) {
             $room = new Room();
             $room->setSummary($summary);
             $room->setDescription($description);
@@ -25,6 +26,7 @@ class RoomFixtures extends Fixture
             $room->setOwner($owner);
             $room->addReservation($reservation);
             $room->addIndisponibilite($indisponibilite);
+            $room->addCommentaire($commentaire);
             $manager->persist($room);
 
             $this->addReference($reference, $room);
@@ -45,7 +47,8 @@ class RoomFixtures extends Fixture
             $this->getReference(RegionFixtures::IDF_REGION_REFERENCE),
             $this->getReference(OwnerFixtures::OB_OWNER_REFERENCE),
             $this->getReference(ReservationFixtures::RESERVATION_1_REFERENCE),
-            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_1_REFERENCE),
+            $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_1_REFERENCE),          
+            $this->getReference(CommentaireFixtures::MR_COMMENT_REFERENCE),
             self::ROOM_1_REFERENCE,
         ];
 
@@ -60,6 +63,7 @@ class RoomFixtures extends Fixture
             $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
             $this->getReference(ReservationFixtures::RESERVATION_2_REFERENCE),
             $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_1_REFERENCE),
+            $this->getReference(CommentaireFixtures::JC_COMMENT_REFERENCE),
             self::ROOM_2_REFERENCE,
         ];
     }

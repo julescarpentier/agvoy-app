@@ -78,6 +78,9 @@
             </div>
             <a href="{{ path('front_office') }}" class="btn btn-primary">Retour</a>
             <a href="{{ path('room_book', {'id': room.id})}}" class="btn btn-success">Réserver</a>
+            <a href="{{ path('room_comments', {'id': room.id})}}" class="btn btn-secondary">Consulter les commentaires</a>
+            <a href="{{ path('public_room_comment', {'id': room.id})}}" class="btn btn-warning">Laisser un commentaire</a>
+            
             {% if is_granted("ROLE_OWNER") and room.owner == app.user.owner %}
                 <a class="btn btn-info" href="{{ path('public_room_edit', {'id': room.id}) }}">Edit</a>
                 {% include 'room/_delete_form.html.twig' %}
