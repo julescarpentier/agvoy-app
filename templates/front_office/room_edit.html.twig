@@ -14,9 +14,9 @@
                 <div class="col-lg-12">
                     {{ include('room/_form.html.twig', {'button_label': 'Update'}) }}
 
-                    <a class="btn btn-primary" href="{{ path('room_index') }}">Back to list</a>
+                    <a class="btn btn-primary" href="{{ path('public_room_show', {'id': room.id}) }}">Retour à l'annonce</a>
 
-                    {{ include('room/_delete_form.html.twig') }}
+                    {{ include('front_office/_room_delete_form.html.twig') }}
                 </div>
             </div>
         </div>

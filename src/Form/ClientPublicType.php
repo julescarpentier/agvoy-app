@@ -2,24 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Reservation;
+use App\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NewReservationFormType extends AbstractType
+class ClientPublicType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateEntree')
-            ->add('dateSortie');
+            ->add('user', null, [
+                'disabled' => true,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,
+            'data_class' => Client::class,
         ]);
     }
 }

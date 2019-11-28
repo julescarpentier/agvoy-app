@@ -6,11 +6,11 @@ use App\Entity\Client;
 use App\Entity\Owner;
 use App\Entity\Reservation;
 use App\Entity\Room;
-use App\Form\ClientReservationType;
-use App\Form\NewOwnerFormType;
-use App\Form\NewReservationFormType;
-use App\Form\NewRoomFormType;
-use App\Form\SearchRegionType;
+use App\Form\ClientPublicType;
+use App\Form\OwnerPublicType;
+use App\Form\ReservationPublicType;
+use App\Form\RoomPublicType;
+use App\Form\SelectRegionFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -46,13 +46,15 @@ class FrontOfficeController extends AbstractController
         $room->setOwner($owner);
 
         if ($this->isGranted("ROLE_OWNER")) {
-            $form = $this->createForm(NewRoomFormType::class, $room);
+            $form = $this->createForm(RoomPublicType::class, $room);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($room);
                 $entityManager->flush();
+
+                $this->addFlash('success', "Annonce ajoutée avec succès");
 
                 return $this->redirectToRoute('my_rooms');
             }
@@ -63,8 +65,8 @@ class FrontOfficeController extends AbstractController
             ]);
         } else {
             $form = $this->createFormBuilder()
-                ->add('owner', NewOwnerFormType::class)
-                ->add('room', NewRoomFormType::class)
+                ->add('owner', OwnerPublicType::class)
+                ->add('room', RoomPublicType::class)
                 ->getForm();
             $form->handleRequest($request);
 
@@ -79,6 +81,8 @@ class FrontOfficeController extends AbstractController
                 $entityManager->persist($owner);
                 $entityManager->persist($room);
                 $entityManager->flush();
+
+                $this->addFlash('success', "Annonce ajoutée avec succès, un profil Owner a été créé");
 
                 return $this->redirectToRoute('my_rooms');
             }
@@ -119,11 +123,11 @@ class FrontOfficeController extends AbstractController
     /**
      * @Route("/room/{id}/book", name="room_book", methods={"GET", "POST"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
-     * @param Room $room
      * @param Request $request
+     * @param Room $room
      * @return Response
      */
-    public function roomBook(Room $room, Request $request): Response
+    public function roomBook(Request $request, Room $room): Response
     {
         $client = $this->getUser()->getClient() ?? new Client();
         $reservation = new Reservation();
@@ -132,7 +136,7 @@ class FrontOfficeController extends AbstractController
         $reservation->setClient($client);
 
         if ($this->isGranted("ROLE_CLIENT")) {
-            $form = $this->createForm(NewReservationFormType::class, $reservation);
+            $form = $this->createForm(ReservationPublicType::class, $reservation);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -140,12 +144,14 @@ class FrontOfficeController extends AbstractController
                 $entityManager->persist($reservation);
                 $entityManager->flush();
 
+                $this->addFlash('success', "Annonce réservée avec succès");
+
                 return $this->redirectToRoute('my_reservations');
             }
         } else {
             $form = $this->createFormBuilder()
-                // ->add('client', NewClientFormType::class) // Ce formulaire est vide compte tenu des infomations demandées pour un Client
-                ->add('reservation', NewReservationFormType::class)
+                // ->add('client', ClientPublicType::class) // Ce formulaire est vide compte tenu des infomations demandées pour un Client
+                ->add('reservation', ReservationPublicType::class)
                 ->getForm();
             $form->handleRequest($request);
 
@@ -161,6 +167,8 @@ class FrontOfficeController extends AbstractController
                 $entityManager->persist($reservation);
                 $entityManager->flush();
 
+                $this->addFlash('success', "Annonce réservée avec succès, un profil Client a été créé");
+
                 return $this->redirectToRoute('my_reservations');
             }
         }
@@ -173,13 +181,65 @@ class FrontOfficeController extends AbstractController
     }
 
     /**
+     * @Route("/room/{id}/edit", name="public_room_edit", methods={"GET", "POST"})
+     * @IsGranted("ROLE_OWNER")
+     * @param Request $request
+     * @param Room $room
+     * @return Response
+     */
+    public function roomEdit(Request $request, Room $room): Response
+    {
+        if ($room->getOwner()->getId() == $this->getUser()->getOwner()->getId()) {
+            $form = $this->createForm(RoomPublicType::class, $room);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->addFlash('success', "Annonce éditée avec succès");
+
+                return $this->redirectToRoute('public_room_show', ['id' => $room->getId()]);
+            }
+
+            return $this->render('front_office/room_edit.html.twig', [
+                'room' => $room,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash('danger', "Vous ne pouvez pas éditer cette annonce");
+
+            return $this->redirectToRoute('front_office');
+        }
+    }
+
+    /**
+     * @Route("/room/{id}", name="public_room_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_OWNER")
+     * @param Request $request
+     * @param Room $room
+     * @return Response
+     */
+    public function delete(Request $request, Room $room): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($room);
+            $entityManager->flush();
+
+            $this->addFlash('success', "Annonce supprimée avec succès");
+        }
+
+        return $this->redirectToRoute('my_rooms');
+    }
+
+    /**
      * @Route("/by-region", name="by_region", methods={"GET", "POST"})
      * @param Request $request
      * @return Response
      */
     public function byRegion(Request $request): Response
     {
-        $form = $this->createForm(SearchRegionType::class);
+        $form = $this->createForm(SelectRegionFormType::class);
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -225,7 +285,6 @@ class FrontOfficeController extends AbstractController
     }
 
     /**
-     *
      * @Route("/my-reservations", name="my_reservations")
      * @IsGranted("ROLE_CLIENT")
      * @return Response
@@ -234,35 +293,6 @@ class FrontOfficeController extends AbstractController
     {
         return $this->render('reservation/index.html.twig', [
             'reservations' => $this->getUser()->getClient()->getReservations(),
-        ]);
-    }
-
-    /**
-     * @Route("/newClient", name="reservation_newClient", methods={"GET","POST"})
-     * @IsGranted("ROLE_CLIENT")
-     * @param Request $request
-     * @return Response
-     */
-    public function newClient(Request $request): Response
-    {
-        $user = $this->getUser();
-        $client = $user->getClient();
-        $reservation = new Reservation();
-        $form = $this->createForm(ClientReservationType::class, $reservation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $reservation->setClient($client);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('front_office');
-        }
-
-        return $this->render('front_office/newClient.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form->createView(),
         ]);
     }
 }
