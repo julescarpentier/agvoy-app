@@ -24,6 +24,10 @@ class Reservation
      */
     private $dateEntree;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateSortie;
    
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reservations", cascade={"persist"})
@@ -34,11 +38,6 @@ class Reservation
      * @ORM\ManyToMany(targetEntity="App\Entity\Room", inversedBy="reservations", cascade={"persist"})
      */
     private $room;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateFin;
 
     public function __construct()
     {
@@ -72,8 +71,6 @@ class Reservation
 
         return $this;
     }
-
-
   
     /**
      * @return Collection|Room[]
@@ -106,14 +103,14 @@ class Reservation
         return '#' . $this->getId() . ' - ' . $this->getClient();
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateSortie(): ?\DateTimeInterface
     {
-        return $this->dateFin;
+        return $this->dateSortie;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): self
+    public function setDateSortie(\DateTimeInterface $dateSortie): self
     {
-        $this->dateFin = $dateFin;
+        $this->dateSortie = $dateSortie;
 
         return $this;
     }

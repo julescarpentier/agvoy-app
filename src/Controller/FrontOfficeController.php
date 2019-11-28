@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\Owner;
 use App\Entity\Reservation;
 use App\Entity\Room;
 use App\Form\ClientReservationType;
 use App\Form\NewOwnerFormType;
+use App\Form\NewReservationFormType;
 use App\Form\NewRoomFormType;
 use App\Form\SearchRegionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -38,14 +40,16 @@ class FrontOfficeController extends AbstractController
      */
     public function room_new(Request $request): Response
     {
+        $owner = $this->getUser()->getOwner() ?? new Owner();
+        $room = new Room();
+
+        $room->setOwner($owner);
+
         if ($this->isGranted("ROLE_OWNER")) {
-            $room = new Room();
             $form = $this->createForm(NewRoomFormType::class, $room);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $room->setOwner($this->getUser()->getOwner());
-
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($room);
                 $entityManager->flush();
@@ -58,16 +62,22 @@ class FrontOfficeController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } else {
-            $owner = new Owner();
-            $form = $this->createForm(NewOwnerFormType::class, $owner);
+            $form = $this->createFormBuilder()
+                ->add('owner', NewOwnerFormType::class)
+                ->add('room', NewRoomFormType::class)
+                ->getForm();
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getUser()->setOwner($owner);
                 $this->getUser()->addRole("ROLE_OWNER");
 
+                $owner = $form->get('owner')->getData();
+                $room = $form->get('room')->getData();
+
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($owner);
+                $entityManager->persist($room);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('my_rooms');
@@ -107,14 +117,59 @@ class FrontOfficeController extends AbstractController
     }
 
     /**
-     * @Route("/reservation/new")
+     * @Route("/room/{id}/book", name="room_book", methods={"GET", "POST"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @param Room $room
      * @param Request $request
      * @return Response
      */
-    public function reservationNew(Request $request): Response
+    public function roomBook(Room $room, Request $request): Response
     {
+        $client = $this->getUser()->getClient() ?? new Client();
+        $reservation = new Reservation();
 
-        return new Response();
+        $reservation->addRoom($room);
+        $reservation->setClient($client);
+
+        if ($this->isGranted("ROLE_CLIENT")) {
+            $form = $this->createForm(NewReservationFormType::class, $reservation);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($reservation);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('my_reservations');
+            }
+        } else {
+            $form = $this->createFormBuilder()
+                // ->add('client', NewClientFormType::class) // Ce formulaire est vide compte tenu des infomations demandées pour un Client
+                ->add('reservation', NewReservationFormType::class)
+                ->getForm();
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getUser()->setClient($client);
+                $this->getUser()->addRole("ROLE_CLIENT");
+
+                // $client = $form->get('client')->getData();
+                $reservation = $form->get('reservation')->getData();
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($client);
+                $entityManager->persist($reservation);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('my_reservations');
+            }
+        }
+
+        return $this->render('front_office/room_book.html.twig', [
+            'room' => $room,
+            'reservation' => $reservation,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

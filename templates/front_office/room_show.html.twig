@@ -1,6 +1,8 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Annonce #{{ room.id }}{% endblock %}
+{% block title %}
+    Annonce #{{ room.id }}
+{% endblock %}
 
 {% block body %}
     <section class="page-section">
@@ -75,7 +77,7 @@
                 </div>
             </div>
             <a href="{{ path('front_office') }}" class="btn btn-primary">Retour</a>
-            <a href="{{ path('reservation_newClient')}}" class="btn btn-success">Book</a>
+            <a href="{{ path('room_book', {'id': room.id})}}" class="btn btn-success">Réserver</a>
             {% if is_granted("ROLE_OWNER") and room.owner == app.user.owner %}
                 <a class="btn btn-info" href="#">Edit</a>
                 <a class="btn btn-danger" href="#">Delete</a>

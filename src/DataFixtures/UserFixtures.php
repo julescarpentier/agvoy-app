@@ -71,7 +71,7 @@ class UserFixtures extends Fixture
             'Berger',
             'olivier',
             ['ROLE_CLIENT', 'ROLE_OWNER'],
-            null,
+            $this->getReference(ClientFixtures::OB_CLIENT_REFERENCE),
             $this->getReference(OwnerFixtures::OB_OWNER_REFERENCE),
             self::OB_USER_REFERENCE,
         ];
