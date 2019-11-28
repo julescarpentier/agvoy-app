@@ -13,10 +13,10 @@ class IndisponibliteFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getIndisponibiliteData() as [$date_debut, $date_fin, $reference]) {
+        foreach ($this->getIndisponibiliteData() as [$dateDebut, $dateFin, $reference]) {
             $indisponibilite = new Indisponibilite();
-            $indisponibilite->setDateDebut($date_debut);
-            $indisponibilite->setDateFin($date_fin);
+            $indisponibilite->setDateDebut($dateDebut);
+            $indisponibilite->setDateFin($dateFin);
             $manager->persist($indisponibilite);
 
             $this->addReference($reference, $indisponibilite);

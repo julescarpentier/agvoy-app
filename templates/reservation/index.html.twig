@@ -1,50 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Reservation index
+    Reservation index
 {% endblock %}
 
 {% block body %}
-<section class="page-section">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 text-center">
-				<h2 class="section-heading text-uppercase">Reservation index</h2>
-			</div>
-			<div class="col-lg-12">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Id</th>
-							<th>DateEntree</th>
-							<th>DateFin</th>
-							<th>actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for reservation in reservations %}
-						<tr>
-							<td>{{ reservation.id }}</td>
-							<td>{{ reservation.dateEntree ? reservation.dateEntree|date('Y-m-d H:i:s') : '' }}</td>
-							<td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d H:i:s') : ''  }}</td>
-							<td><a class="btn btn-info btn-sm"
-								href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
-								<a class="btn btn-secondary btn-sm"
-								href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
-							</td>
-						</tr>
-						{% else %}
-						<tr>
-							<td colspan="4">no records found</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Reservation index</h2>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Date d'entrée</th>
+                            <th>Date de sortie</th>
+                            <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for reservation in reservations %}
+                            <tr>
+                                <td>{{ reservation.id }}</td>
+                                <td>{{ reservation.dateEntree ? reservation.dateEntree|date('Y-m-d') : '' }}</td>
+                                <td>{{ reservation.dateSortie ? reservation.dateSortie|date('Y-m-d') : '' }}</td>
+                                <td><a class="btn btn-info btn-sm"
+                                       href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
+                                    <a class="btn btn-secondary btn-sm"
+                                       href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 
-				<a class="btn btn-primary" href="{{ path('reservation_new') }}">Create
-					new</a>
-			</div>
-		</div>
-	</div>
-</section>
+                    <a class="btn btn-primary" href="{{ path('reservation_new') }}">Create new</a>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

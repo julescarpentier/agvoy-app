@@ -14,10 +14,10 @@ class ReservationFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getReservationData() as [$date_entree, $date_fin, $client, $reference]) {
+        foreach ($this->getReservationData() as [$dateEntree, $dateSortie, $client, $reference]) {
             $reservation = new Reservation();
-            $reservation->setDateEntree($date_entree);
-            $reservation->setDateFin($date_fin);
+            $reservation->setDateEntree($dateEntree);
+            $reservation->setDateSortie($dateSortie);
             $reservation->setClient($client);
             $manager->persist($reservation);
 

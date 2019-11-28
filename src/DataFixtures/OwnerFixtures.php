@@ -14,8 +14,9 @@ class OwnerFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getOwnerData() as [$country, $reference]) {
+        foreach ($this->getOwnerData() as [$address, $country, $reference]) {
             $owner = new Owner();
+            $owner->setAddress($address);
             $owner->setCountry($country);
             $manager->persist($owner);
 
@@ -27,8 +28,8 @@ class OwnerFixtures extends Fixture
 
     private function getOwnerData()
     {
-        yield ["FR", self::MR_OWNER_REFERENCE];
-        yield ["FR", self::JC_OWNER_REFERENCE];
-        yield ["FR", self::OB_OWNER_REFERENCE];
+        yield ["14 rue Charles Fourier, 91000 Evry", "FR", self::MR_OWNER_REFERENCE];
+        yield ["14 rue Charles Fourier, 91000 Evry", "FR", self::JC_OWNER_REFERENCE];
+        yield ["9 rue Charles Fourier, 91000 Evry", "FR", self::OB_OWNER_REFERENCE];
     }
 }

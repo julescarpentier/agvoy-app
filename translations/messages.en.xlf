@@ -9,6 +9,18 @@
         <source>Sélectionnez une région</source>
         <target>Select a region</target>
       </trans-unit>
+      <trans-unit id="cz0cdCZ" resname="Rechercher">
+        <source>Rechercher</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id=".iiJvdg" resname="Nos annonces par région">
+        <source>Nos annonces par région</source>
+        <target>Our offers versus region</target>
+      </trans-unit>
+      <trans-unit id="RxP6Oq1" resname="Sélectionnez la région et consultez nos annonces">
+        <source>Sélectionnez la région et consultez nos annonces</source>
+        <target>Select a region and check out the offers</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

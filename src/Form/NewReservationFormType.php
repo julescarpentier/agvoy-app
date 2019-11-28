@@ -2,24 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Owner;
+use App\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NewOwnerFormType extends AbstractType
+class NewReservationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('address')
-            ->add('country');
+            ->add('dateEntree')
+            ->add('dateSortie');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Owner::class,
+            'data_class' => Reservation::class,
         ]);
     }
 }

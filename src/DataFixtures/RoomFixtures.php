@@ -43,7 +43,7 @@ class RoomFixtures extends Fixture
             3000,
             "9 Rue Charles Fourier, 91228 EVRY",
             $this->getReference(RegionFixtures::IDF_REGION_REFERENCE),
-            $this->getReference(OwnerFixtures::MR_OWNER_REFERENCE),
+            $this->getReference(OwnerFixtures::OB_OWNER_REFERENCE),
             $this->getReference(ReservationFixtures::RESERVATION_1_REFERENCE),
             $this->getReference(IndisponibliteFixtures::INDISPONIBILITE_1_REFERENCE),
             self::ROOM_1_REFERENCE,
