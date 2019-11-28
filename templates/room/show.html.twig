@@ -1,55 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room{% endblock %}
+{% block title %}
+Room
+{% endblock %}
 
 {% block body %}
-    <section class="page-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-uppercase">Room</h2>
-                </div>
-                <div class="col-lg-12">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <th>Id</th>
-                            <td>{{ room.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>Summary</th>
-                            <td>{{ room.summary }}</td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td>{{ room.description }}</td>
-                        </tr>
-                        <tr>
-                            <th>Capacity</th>
-                            <td>{{ room.capacity }}</td>
-                        </tr>
-                        <tr>
-                            <th>Superficy</th>
-                            <td>{{ room.surface }}</td>
-                        </tr>
-                        <tr>
-                            <th>Price</th>
-                            <td>{{ room.price }}</td>
-                        </tr>
-                        <tr>
-                            <th>Address</th>
-                            <td>{{ room.address }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+<section class="page-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading text-uppercase">Room</h2>
+			</div>
+			<div class="col-lg-12">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ room.id }}</td>
+						</tr>
+						<tr>
+							<th>Summary</th>
+							<td>{{ room.summary }}</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>{{ room.description }}</td>
+						</tr>
+						<tr>
+							<th>Capacity</th>
+							<td>{{ room.capacity }}</td>
+						</tr>
+						<tr>
+							<th>Superficy</th>
+							<td>{{ room.surface }}</td>
+						</tr>
+						<tr>
+							<th>Price</th>
+							<td>{{ room.price }}</td>
+						</tr>
+						<tr>
+							<th>Address</th>
+							<td>{{ room.address }}</td>
+						</tr>
+						<tr>
+							<th>Image</th>
+							<td><img src="{{ vich_uploader_asset(room, 'imageFile') }}" /></td>
+						</tr>
+					</tbody>
+				</table>
 
-                    <a class="btn btn-primary" href="{{ path('room_index') }}">back to list</a>
+				<a class="btn btn-primary" href="{{ path('room_index') }}">back
+					to list</a> <a class="btn btn-secondary"
+					href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
 
-                    <a class="btn btn-secondary" href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
-
-                    {{ include('room/_delete_form.html.twig') }}
-                </div>
-            </div>
-        </div>
-    </section>
+				{{ include('room/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
+</section>
 {% endblock %}

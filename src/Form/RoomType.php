@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Room;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RoomType extends AbstractType
 {
@@ -21,6 +23,9 @@ class RoomType extends AbstractType
             ->add('owner')
             ->add('regions')
             ->add('reservations')
+            ->add('imageName', TextType::class,  ['disabled' => true])
+            ->add('imageFile', VichImageType::class, ['required' => false])
+           
         ;
     }
 
