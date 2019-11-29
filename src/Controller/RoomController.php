@@ -47,12 +47,12 @@ class RoomController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Change conte-type according to image's
-            $imagefile = $room->getImageFile();
-            if($imagefile) {
+            /*$imagefile = $room->getImageFile();
+            if ($imagefile) {
                 $mimetype = $imagefile->getMimeType();
                 $room->setContentType($mimetype);
-            }
-            
+            }*/
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($room);
             $entityManager->flush();
@@ -117,5 +117,5 @@ class RoomController extends AbstractController
 
         return $this->redirectToRoute('room_index');
     }
-   
+
 }
