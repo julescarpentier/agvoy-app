@@ -1,0 +1,50 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Mes reservations
+{% endblock %}
+
+{% block body %}
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Mes reservations</h2>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Date d'entree</th>
+                            <th>Date de sortie</th>
+                            <th>Rooms</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for reservation in reservations %}
+                            <tr>
+                                <td>{{ reservation.id }}</td>
+                                <td>{{ reservation.dateEntree ? reservation.dateEntree|date('Y-m-d') : ''  }}</td>
+                                <td>{{ reservation.dateSortie ? reservation.dateSortie|date('Y-m-d') : ''  }}</td>
+								<td>{% for room in reservation.room %} {{ room.summary }} {% endfor %}</td>
+								<td>
+								
+								{% include'front_office/_reservation_delete_form.html.twig' %}							</td>
+                  
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-primary" href="{{ path('front_office') }}">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

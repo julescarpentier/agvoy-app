@@ -332,6 +332,28 @@ class FrontOfficeController extends AbstractController
         
         return $this->redirectToRoute('my_comments');
     }
+    
+    /**
+     * @Route("my-reservations/reservation/{id}", name="public_reservation_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_CLIENT")
+     * @param Request $request
+     * @param Reservation $reservation
+     * @return Response
+     */
+    
+    public function deleteReservation(Request $request, Reservation $reservation): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($reservation);
+            $entityManager->flush();
+            
+            $this->addFlash('success', "Reservation supprimée avec succès");
+        }
+        
+        return $this->redirectToRoute('my_reservations');
+    }
+    
 
     /**
      * @Route("/by-region", name="by_region", methods={"GET", "POST"})
@@ -392,7 +414,7 @@ class FrontOfficeController extends AbstractController
      */
     public function myReservations(): Response
     {
-        return $this->render('reservation/index.html.twig', [
+        return $this->render('front_office/my_reservations.html.twig', [
             'reservations' => $this->getUser()->getClient()->getReservations(),
         ]);
     }
