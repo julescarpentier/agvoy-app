@@ -17,6 +17,7 @@ Owner index
 					<thead>
 						<tr>
 							<th>Id</th>
+							<th>Name</th>
 							<th>Address</th>
 							<th>Country</th>
 							<th>actions</th>
@@ -26,6 +27,7 @@ Owner index
 						{% for owner in owners %}
 						<tr>
 							<td>{{ owner.id }}</td>
+							<td>{{ owner}}</td>
 							<td>{{ owner.address }}</td>
 							<td>{{ owner.country }}</td>
 							<td><a class="btn btn-info btn-sm"

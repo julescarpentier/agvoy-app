@@ -1,0 +1,50 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Mes commentaires
+{% endblock %}
+
+{% block body %}
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Mes commentaires</h2>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Auteur</th>
+                            <th>Commentaire</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for commentaire in commentaires %}
+                            <tr>
+                                <td>{{ commentaire.id }}</td>
+                                <td>{{ commentaire.auteur }}</td>
+                                <td>{{ commentaire.commentaire }}</td>
+								
+								<td>
+								<a class="btn btn-secondary btn-sm"
+								href="{{ path('public_comment_edit', {'id': commentaire.id}) }}">edit</a>
+							</td>
+                  
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-primary" href="{{ path('front_office') }}">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

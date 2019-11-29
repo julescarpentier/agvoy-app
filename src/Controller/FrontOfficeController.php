@@ -215,6 +215,41 @@ class FrontOfficeController extends AbstractController
     }
     
     /**
+     * @Route("/commentaire/{id}/edit", name="public_comment_edit", methods={"GET", "POST"})
+     * @IsGranted("ROLE_CLIENT")
+     * @param Request $request
+     * @param Commentaire $commentaire
+     * @return Response
+     */
+    public function commentEdit(Request $request, Commentaire $commentaire): Response
+    {
+        if ($commentaire->getAuteur()->getId() == $this->getUser()->getClient()->getId()) {
+            $form = $this->createForm(CommentairePublicType::class, $commentaire);
+            $form->handleRequest($request);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+                
+                $this->addFlash('success', "Commentaire édité avec succès");
+                
+                return $this->redirectToRoute('my_comments');
+            }
+            
+            return $this->render('front_office/comment_edit.html.twig', [
+                'comment' => $commentaire,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash('danger', "Vous ne pouvez pas éditer ce commentaire");
+            
+            return $this->redirectToRoute('front_office');
+        }
+    }
+    
+    
+    
+    
+    /**
      * @Route("/room/{id}/comment", name="public_room_comment", methods={"GET", "POST"})
      * @IsGranted("ROLE_CLIENT")
      * @param Request $request
@@ -275,6 +310,27 @@ class FrontOfficeController extends AbstractController
         }
 
         return $this->redirectToRoute('my_rooms');
+    }
+    
+    /**
+     * @Route("my-comments/commentaire/{id}", name="public_comment_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_CLIENT")
+     * @param Request $request
+     * @param Commentaire $comment
+     * @return Response
+     */
+    
+    public function deleteComment(Request $request, Commentaire $comment): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($comment);
+            $entityManager->flush();
+            
+            $this->addFlash('success', "Commentaire supprimé avec succès");
+        }
+        
+        return $this->redirectToRoute('my_comments');
     }
 
     /**
@@ -347,7 +403,7 @@ class FrontOfficeController extends AbstractController
      */
     public function myComments(): Response
     {
-        return $this->render('commentaire/index.html.twig', [
+        return $this->render('front_office/my_comments.html.twig', [
             'commentaires' => $this->getUser()->getClient()->getCommentaires(),
         ]);
     }
