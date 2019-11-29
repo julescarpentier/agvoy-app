@@ -16,7 +16,6 @@ class Commentaire
      */
     private $id;
 
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -33,13 +32,10 @@ class Commentaire
      */
     private $auteur;
 
- 
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
     public function getCommentaire(): ?string
     {
@@ -48,7 +44,7 @@ class Commentaire
 
     public function setCommentaire(?string $commentaire): self
     {
-        $this->Commentaire = $commentaire;
+        $this->commentaire = $commentaire;
 
         return $this;
     }
@@ -76,6 +72,4 @@ class Commentaire
 
         return $this;
     }
-
-
 }

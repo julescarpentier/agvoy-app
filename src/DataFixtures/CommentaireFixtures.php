@@ -11,6 +11,7 @@ class CommentaireFixtures extends Fixture
 {
     public const MR_COMMENT_REFERENCE = 'mr-comment';
     public const JC_COMMENT_REFERENCE = 'jc-comment';
+    public const OB_COMMENT_REFERENCE = 'ob-comment';
 
     public function load(ObjectManager $manager)
     {
@@ -30,8 +31,9 @@ class CommentaireFixtures extends Fixture
     {
         yield ["Endroit atypique mais très agréable. Personnel sympatique et accueillant.", $this->getReference(ClientFixtures::MR_CLIENT_REFERENCE), self::MR_COMMENT_REFERENCE];
         yield ["A éviter ! Personnel anthipatique et chambre minuscule.", $this->getReference(ClientFixtures::JC_CLIENT_REFERENCE), self::JC_COMMENT_REFERENCE];
+        yield ["I love PHP!", $this->getReference(ClientFixtures::OB_CLIENT_REFERENCE), self::OB_COMMENT_REFERENCE];
     }
-    
+
     public function getDependencies()
     {
         return array(

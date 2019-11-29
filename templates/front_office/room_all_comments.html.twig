@@ -26,7 +26,6 @@
                                 <td>{{ commentaire.id }}</td>
                                 <td>{{ commentaire.auteur }}</td>
                                 <td>{{ commentaire.commentaire }}</td>
-                  
                             </tr>
                         {% else %}
                             <tr>
@@ -36,7 +35,8 @@
                         </tbody>
                     </table>
 
-                    <a class="btn btn-primary" href="{{ path('front_office') }}">Retour à l'accueil</a>
+                    <a class="btn btn-primary" href="{{ path('public_room_show', {'id': room.id}) }}">Retour à
+                        l'annonce</a>
                 </div>
             </div>
         </div>

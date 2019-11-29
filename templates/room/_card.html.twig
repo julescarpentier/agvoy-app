@@ -1,6 +1,6 @@
 <div class="card h-100">
     <a href="{{ path('public_room_show', {'id': room.id}) }}">
-        <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+        <img class="card-img-top" src="{{ (room.imageName) ? vich_uploader_asset(room, 'imageFile') : 'http://placehold.it/700x400' }}" alt="">
     </a>
     <div class="card-body">
         <h4 class="card-title">
