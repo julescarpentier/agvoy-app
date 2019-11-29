@@ -308,7 +308,7 @@ class FrontOfficeController extends AbstractController
     }
     
     /**
-     * @Route("my-comments/commentaire/{id}", name="public_comment_delete", methods={"DELETE"})
+     * @Route("/comment/{id}", name="public_comment_delete", methods={"DELETE"})
      * @IsGranted("ROLE_CLIENT")
      * @param Request $request
      * @param Commentaire $comment
@@ -317,19 +317,23 @@ class FrontOfficeController extends AbstractController
     
     public function deleteComment(Request $request, Commentaire $comment): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($comment);
-            $entityManager->flush();
-            
-            $this->addFlash('success', "Commentaire supprimé avec succès");
+        if ($comment->getAuteur()->getId() == $this->getUser()->getClient()->getId()) {
+            if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($comment);
+                $entityManager->flush();
+
+                $this->addFlash('success', "Commentaire supprimé avec succès");
+            }
+        } else {
+            $this->addFlash('danger', "Vous ne pouvez pas supprimer ce commentaire");
         }
         
         return $this->redirectToRoute('my_comments');
     }
     
     /**
-     * @Route("my-reservations/reservation/{id}", name="public_reservation_delete", methods={"DELETE"})
+     * @Route("/reservation/{id}", name="public_reservation_delete", methods={"DELETE"})
      * @IsGranted("ROLE_CLIENT")
      * @param Request $request
      * @param Reservation $reservation
@@ -338,17 +342,20 @@ class FrontOfficeController extends AbstractController
     
     public function deleteReservation(Request $request, Reservation $reservation): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($reservation);
-            $entityManager->flush();
-            
-            $this->addFlash('success', "Reservation supprimée avec succès");
+        if ($reservation->getClient()->getId() == $this->getUser()->getClient()->getId()) {
+            if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($reservation);
+                $entityManager->flush();
+
+                $this->addFlash('success', "Reservation supprimée avec succès");
+            }
+        } else {
+            $this->addFlash('danger', "Vous ne pouvez pas supprimer cette réservation");
         }
         
         return $this->redirectToRoute('my_reservations');
     }
-    
 
     /**
      * @Route("/by-region", name="by_region", methods={"GET", "POST"})
