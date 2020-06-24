@@ -2,13 +2,10 @@ security:
     encoders:
         App\Entity\User:
             algorithm: auto
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
+        users_in_memory: { memory: null }
     role_hierarchy:
         ROLE_ADMIN: [ROLE_CLIENT, ROLE_OWNER]
         ROLE_SUPER_ADMIN: ROLE_ADMIN
@@ -18,22 +15,16 @@ security:
             security: false
         main:
             anonymous: true
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
-            logout:
-                path: app_logout
-    # where to redirect after logout
-    access_control: null
-# ----------------
-# Orphan comments:
-# ----------------
-# Was at begin of line:30 :# target: app_any_route
-# Was at begin of line:32 :# activate different ways to authenticate
-# Was at begin of line:33 :# https://symfony.com/doc/current/security.html#firewalls-authentication
-# Was at begin of line:35 :# https://symfony.com/doc/current/security/impersonating_user.html
-# Was at begin of line:36 :# switch_user: true
-# Was at begin of line:38 :# Easy way to control access for large sections of your site
-# Was at begin of line:39 :# Note: Only the *first* access control that matches will be used
-# Was at begin of line:41 :# - { path: ^/admin, roles: ROLE_ADMIN }
-# Was at begin of line:42 :# - { path: ^/profile, roles: ROLE_USER }
+            provider: users_in_memory
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
